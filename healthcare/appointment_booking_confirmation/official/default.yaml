@@ -1,0 +1,64 @@
+# Better structure - focused on what developers need
+version: "1.0"
+id: "appointment_booking_confirmation"
+name: "Appointment Booking Confirmation"
+description: "Notify patient and provider when a new appointment has been scheduled"
+category: "healthcare-appointment"
+tags: ["appointment", "confirmation", "healthcare", "notification"]
+
+channels:
+  email:
+    subject: "📅 Your appointment on {{appointment_date}} at {{appointment_time}} is confirmed"
+    body: |
+      Hi {{patient_name}},
+
+      Your {{appointment_type}} appointment with {{provider_name}} has been successfully scheduled.
+
+      📅 Date: {{appointment_date}}
+      🕒 Time: {{appointment_time}}
+      📍 Location: {{location}}
+      🔑 Confirmation Code: {{confirmation_code}}
+
+      If you need to cancel or reschedule, please use the link below:
+      {{cancellation_link}}
+
+      We look forward to seeing you,
+      The Healthcare Team
+
+  slack:
+    text: "🩺 New appointment booked: {{appointment_date}} at {{appointment_time}} with {{provider_name}} ({{appointment_type}}). Location: {{location}}. Ref: {{confirmation_code}}"
+
+  teams:
+    text: "Your {{appointment_type}} appointment with {{provider_name}} is set for {{appointment_date}} at {{appointment_time}}. Location: {{location}}. Confirmation #: {{confirmation_code}}. Cancel: {{cancellation_link}}"
+
+  sms:
+    text: "Appt w/ {{provider_name}} on {{appointment_date}} at {{appointment_time}}. Type: {{appointment_type}}. Loc: {{location}}. Ref: {{confirmation_code}}. Cancel: {{cancellation_link}}"
+
+  whatsapp:
+    text: |
+      Hi {{patient_name}},
+
+      Your {{appointment_type}} appointment with {{provider_name}} is confirmed for {{appointment_date}} at {{appointment_time}} at {{location}}.
+      Confirmation code: {{confirmation_code}}
+      To cancel: {{cancellation_link}}
+
+  push:
+    title: "Appointment Confirmed"
+    body: "{{appointment_date}} at {{appointment_time}} with {{provider_name}} – Ref: {{confirmation_code}}"
+
+variables:
+  required: ["patient_name", "provider_name", "appointment_date", "appointment_time", "location", "appointment_type", "confirmation_code", "cancellation_link"]
+  optional: []
+
+# THIS is what matters - show them how to use it
+examples:
+  - description: "Basic usage"
+    data:
+      patient_name: "Aisha Patel"
+      provider_name: "Dr. Mehta"
+      appointment_date: "2025-07-01"
+      appointment_time: "14:30"
+      location: "City Health Center, Room 12B"
+      appointment_type: "General Check-up"
+      confirmation_code: "APT-456789"
+      cancellation_link: "https://health.example.com/cancel/456789"

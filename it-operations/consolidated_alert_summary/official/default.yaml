@@ -1,0 +1,73 @@
+# Better structure - focused on what developers need
+version: "1.0"
+id: "consolidated_alert_summary"
+name: "Consolidated Alert Summary"
+description: "Provide a summary of alerts to reduce noise and highlight actionable items"
+category: "it-operations"
+tags: ["alert", "summary", "it-ops", "noise-reduction", "hr-it-ops"]
+
+variables:
+  required: ["alert_count", "time_period", "top_issues", "noise_reduction_percentage", "actionable_alerts"]
+  optional: []
+
+channels:
+  email:
+    subject: "🔔 Consolidated Alert Summary: {{alert_count}} in last {{time_period}}"
+    body: |
+      Hi {{recipient_name}},
+
+      Here’s your consolidated alert report for the past {{time_period}}:
+
+      • Total alerts generated: {{alert_count}}
+      • Noise reduced by: {{noise_reduction_percentage}}%
+      • Top issues: {{top_issues}}
+      • Actionable alerts: {{actionable_alerts}}
+
+      You can customize the look and feel of this email in your organization’s template settings.
+
+      —  
+      IT Operations Team
+
+  slack:
+    text: |
+      *Consolidated Alert Summary*
+      • Alerts: {{alert_count}} in {{time_period}}
+      • Noise ↓ {{noise_reduction_percentage}}%
+      • Top: {{top_issues}}
+      • Actionables: {{actionable_alerts}}
+
+  teams:
+    text: |
+      **Consolidated Alert Summary**
+      • **Alerts:** {{alert_count}} ({{time_period}})
+      • **Noise reduced:** {{noise_reduction_percentage}}%
+      • **Top issues:** {{top_issues}}
+      • **Actionable items:** {{actionable_alerts}}
+
+  sms:
+    text: >-
+      Alert Summary: {{alert_count}} alerts in {{time_period}}. Noise down {{noise_reduction_percentage}}%. Top: {{top_issues}}. Actions: {{actionable_alerts}}.
+
+  whatsapp:
+    text: |
+      🔔 *Consolidated Alert Summary*
+      • *Alerts Generated:* {{alert_count}} ({{time_period}})
+      • *Noise Reduced:* {{noise_reduction_percentage}}%
+      • *Top Issues:* {{top_issues}}
+      • *Actionable Alerts:* {{actionable_alerts}}
+
+      Reply “DETAILS” to view full report on your dashboard.
+
+  push:
+    title: "Alert Summary: {{alert_count}} alerts"
+    body: "Noise ↓ {{noise_reduction_percentage}}%. {{actionable_alerts}}. Tap to view."
+
+examples:
+  - description: "Basic usage"
+    data:
+      alert_count: "125"
+      time_period: "last 24 hours"
+      top_issues: "DB connection failures, high CPU usage"
+      noise_reduction_percentage: "72%"
+      actionable_alerts: "15 critical server restarts"
+      recipient_name: "Alex"

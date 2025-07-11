@@ -1,0 +1,75 @@
+# Better structure – focused on what developers need
+version: "1.0"
+id: "performance_review_schedule"
+name: "Performance Review Scheduling"
+description: "Notify employee to schedule their performance review"
+category: "hr-recruiting"
+tags: ["hr", "recruiting", "performance", "notification"]
+
+channels:
+  email:
+    subject: "📅 Schedule Your {{review_period}} Performance Review"
+    body: |
+      Hi {{employee_name}},
+
+      It’s time to schedule your performance review for **{{review_period}}** with {{manager_name}}.
+
+      **Proposed dates:**  
+      {{proposed_dates}}
+
+      Please complete your self-assessment by **{{self_assessment_deadline}}** and submit it here:  
+      {{review_form_link}}
+
+      Looking forward to a productive discussion!
+
+      — HR Team
+
+  slack:
+    text: |
+      :spiral_calendar_pad: Hey {{employee_name}}, please pick one of these dates to meet with {{manager_name}} for your {{review_period}} review:
+      {{proposed_dates}}
+      • Self-assessment due by {{self_assessment_deadline}}  
+      • Form ➞ {{review_form_link}}
+
+  teams:
+    text: |
+      📆 Hi {{employee_name}},  
+      Let’s schedule your {{review_period}} review with {{manager_name}}.  
+      • Dates: {{proposed_dates}}  
+      • Self-assessment by {{self_assessment_deadline}}  
+      • Complete here: {{review_form_link}}
+
+  sms:
+    text: "Hi {{employee_name}}: Your {{review_period}} review with {{manager_name}} is pending. Dates: {{proposed_dates}}. Self-assessment by {{self_assessment_deadline}}. Form: {{review_form_link}}"
+
+  whatsapp:
+    text: |
+      Hello {{employee_name}} 👋  
+      It’s time for your {{review_period}} performance review with {{manager_name}}.  
+      *Proposed dates:* {{proposed_dates}}  
+      *Self-assessment due:* {{self_assessment_deadline}}  
+      📄 Fill out your form: {{review_form_link}}
+
+  push:
+    title: "Schedule Your {{review_period}} Review"
+    body: "Pick a date and submit self-assessment by {{self_assessment_deadline}}."
+
+variables:
+  required:
+    - employee_name
+    - manager_name
+    - review_period
+    - proposed_dates
+    - self_assessment_deadline
+    - review_form_link
+
+# Examples – show them how to use it
+examples:
+  - description: "Basic usage"
+    data:
+      employee_name: "Jane Doe"
+      manager_name: "Alice Smith"
+      review_period: "Q2 2025"
+      proposed_dates: "June 30, July 2, or July 5"
+      self_assessment_deadline: "June 25, 2025"
+      review_form_link: "https://company.example.com/review-form/12345"

@@ -1,0 +1,76 @@
+# Better structure - focused on what developers need
+version: "1.0"
+id: "offer_approval_required"
+name: "Offer Approval Required"
+description: "Notify hiring stakeholders when a candidate’s offer requires approval"
+category: "hr-recruiting"
+tags: ["hr", "recruiting", "approval", "offer"]
+
+channels:
+  email:
+    subject: "📝 Approval Needed: Offer for {{candidate_name}} as {{position_title}}"
+    body: |
+      Hi {{hiring_manager_name}},
+
+      We’ve prepared an offer for **{{candidate_name}}** for the role of **{{position_title}}**:
+      • Proposed salary: {{proposed_salary}}  
+      • Signing bonus: {{signing_bonus}}  
+      • Start date: {{start_date}}  
+      • Budget comparison: {{comparison_to_budget}}
+
+      Please review and approve by **{{approval_deadline}}** to ensure a smooth onboarding.
+
+      [Approve Offer]({{approval_link}})
+
+      Thanks,  
+      Talent Acquisition Team
+
+  slack:
+    text: ":white_check_mark: *Offer Approval Needed* for {{candidate_name}} ({{position_title}}). Please review: {{approval_link}}. Deadline: {{approval_deadline}}."
+
+  teams:
+    text: "**Offer Approval Needed**  
+Candidate: {{candidate_name}}  
+Role: {{position_title}}  
+Review by: {{approval_deadline}}  
+{{approval_link}}"
+
+  sms:
+    text: "ACTION: Approve offer for {{candidate_name}} ({{position_title}}) by {{approval_deadline}}. Details sent to your email."
+
+  whatsapp:
+    text: "Hello {{hiring_manager_name}},  
+Your approval is needed for {{candidate_name}}’s offer ({{position_title}}).  
+Salary: {{proposed_salary}}, Bonus: {{signing_bonus}}.  
+Approve by {{approval_deadline}}: {{approval_link}}"
+
+  push:
+    title: "Offer Approval: {{candidate_name}}"
+    message: "Approve {{candidate_name}}’s {{position_title}} offer by {{approval_deadline}}."
+
+variables:
+  required:
+    - candidate_name
+    - position_title
+    - proposed_salary
+    - signing_bonus
+    - start_date
+    - hiring_manager_name
+    - comparison_to_budget
+    - approval_deadline
+    - approval_link
+  optional: []
+
+# Example showing how to use it
+examples:
+  - description: "Basic usage"
+    data:
+      candidate_name: "Ravi Kumar"
+      position_title: "Senior UX Designer"
+      proposed_salary: "$85,000"
+      signing_bonus: "$5,000"
+      start_date: "2025-07-15"
+      hiring_manager_name: "Anita Desai"
+      comparison_to_budget: "5% above budget"
+      approval_deadline: "2025-06-28"
+      approval_link: "https://app.company.com/offers/approve/OKT-7890"

@@ -1,0 +1,79 @@
+# Better structure - focused on what developers need
+version: "1.0"
+id: "social_engagement_spike"
+name: "Social Media Engagement Spike"
+description: "Alert when a social media post experiences a significant spike in engagement"
+category: "marketing"
+tags: ["social-media", "engagement", "alert", "marketing"]
+
+channels:
+  email:
+    subject: "🚀 Engagement Alert: '{{post_title}}' on {{platform_name}}"
+    body: |
+      Hi Team,
+
+      Good news! Your post titled "{{post_title}}" on {{platform_name}} just saw a spike in {{engagement_metric}}:
+      
+      • Value: {{metric_value}}  
+      • Increase: {{percentage_increase}}  
+      • Sentiment Score: {{sentiment_score}}
+
+      Top comments:
+      {{#each top_comments}}
+      – {{this}}
+      {{/each}}
+
+      Keep the momentum going!
+
+      Best,  
+      The Marketing Ops Team
+
+  slack:
+    text: "🚨 {{platform_name}} post \"{{post_title}}\" spiked in {{engagement_metric}}: {{metric_value}} (+{{percentage_increase}}). Sentiment: {{sentiment_score}}"
+
+  teams:
+    text: |
+      **Engagement Spike Alert**  
+      • **Platform:** {{platform_name}}  
+      • **Post:** {{post_title}}  
+      • **Metric:** {{engagement_metric}} = {{metric_value}} (+{{percentage_increase}})  
+      • **Sentiment:** {{sentiment_score}}  
+
+      _Top comments:_ {{top_comments.[0]}}, {{top_comments.[1]}}, …
+
+  sms:
+    text: "Alert: '{{post_title}}' on {{platform_name}} saw {{metric_value}} {{engagement_metric}} (+{{percentage_increase}})."
+
+  whatsapp:
+    text: |
+      🚀 *Engagement Spike!*  
+      Your post "*{{post_title}}*" on *{{platform_name}}* jumped to *{{metric_value}}* {{engagement_metric}} (+{{percentage_increase}}).  
+      Sentiment: {{sentiment_score}}  
+      Top comment: "{{top_comments.[0]}}"  
+
+  push:
+    title: "Engagement Spike on {{platform_name}}!"
+    body: "{{post_title}}: {{metric_value}} {{engagement_metric}} (+{{percentage_increase}})"
+
+variables:
+  required: 
+    - "platform_name"
+    - "post_title"
+    - "engagement_metric"
+    - "metric_value"
+    - "percentage_increase"
+    - "sentiment_score"
+    - "top_comments"
+
+examples:
+  - description: "Basic usage"
+    data:
+      platform_name: "Twitter"
+      post_title: "Summer Sale Announcement"
+      engagement_metric: "likes"
+      metric_value: "1,250"
+      percentage_increase: "30%"
+      sentiment_score: "0.92"
+      top_comments:
+        - "Can't wait for the sale!"
+        - "Love this announcement!"

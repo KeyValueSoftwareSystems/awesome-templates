@@ -1,0 +1,58 @@
+# Better structure - focused on what developers need
+version: "1.0"
+id: "identity_verification"
+name: "Identity Verification"
+description: "Prompt user to verify their identity during authentication flow"
+category: "customer-support"
+tags: ["authentication", "security", "verification", "notification"]
+
+channels:
+  email:
+    subject: "🔒 Verify Your Identity — Code {{verification_code}}"
+    body: |
+      Hello,
+
+      To continue securely, please use the verification code below:
+
+      Verification Code: {{verification_code}}
+      Expires In: {{expiry_time}}
+
+      Security Question:
+      {{security_question}}
+
+      If you did not request this code, please contact support immediately.
+
+      Thanks,
+      Your Support Team
+
+  slack:
+    text: "🔒 Identity check: use code *{{verification_code}}* (expires in {{expiry_time}}). Question: {{security_question}}"
+
+  teams:
+    text: "🔒 Your authentication code is **{{verification_code}}**, expires in {{expiry_time}}. Answer: {{security_question}}"
+
+  sms:
+    text: "Code {{verification_code}} expires in {{expiry_time}}. Q: {{security_question}}"
+
+  whatsapp:
+    text: |
+      Hello! To complete login, please provide the following:
+      • Code: {{verification_code}}
+      • Expires: {{expiry_time}}
+      • Security Q: {{security_question}}
+
+  push:
+    title: "Verification Required"
+    body: "Code {{verification_code}} (expires in {{expiry_time}}). Q: {{security_question}}"
+
+variables:
+  required: ["verification_code", "expiry_time"]
+  optional: ["security_question"]
+
+# THIS is what matters - show them how to use it
+examples:
+  - description: "Basic usage"
+    data:
+      verification_code: "837492"
+      expiry_time: "15 minutes"
+      security_question: "What is your favorite color?"

@@ -1,0 +1,81 @@
+# Better structure – focused on what developers need
+version: "1.0"
+id: "churn_risk_detected"
+name: "Customer Churn Risk Detected"
+description: "Alert when a customer shows signs of potential churn"
+category: "marketing"
+tags: ["churn", "risk", "alert", "marketing"]
+
+channels:
+  email:
+    subject: "⚠️ {{customer_name}}, we’re here to help—your account risk score is {{risk_score}}%"
+    body: |
+      Hi {{customer_name}},
+
+      Our analytics indicate your recent activity has dropped, giving you a risk score of **{{risk_score}}%**.
+      Key indicators: {{churn_indicators | join(", ")}}  
+      Your lifetime value: {{customer_lifetime_value}}  
+
+      We value you—here’s an exclusive offer to stay:  
+      {{retention_offer}}  
+
+      If you have any questions, reach out directly to {{assigned_specialist}}.
+
+      Cheers,  
+      The SIREN Customer Success Team
+
+  slack:
+    text: |
+      :rotating_light: *Churn Risk Alert*  
+      *{{customer_name}}* — risk score *{{risk_score}}%*  
+      Indicators: {{churn_indicators | join(", ")}}  
+      Offer: {{retention_offer}}  
+      Specialist: {{assigned_specialist}}
+
+  teams:
+    text: |
+      **Churn Risk Detected**  
+      **Customer:** {{customer_name}}  
+      **Score:** {{risk_score}}%  
+      **Lifetime Value:** {{customer_lifetime_value}}  
+      **Offer:** {{retention_offer}}  
+      _Assigned to:_ {{assigned_specialist}}
+
+  sms:
+    text: >
+      {{customer_name}}, your account shows {{risk_score}}% churn risk. We’ve prepared {{retention_offer}}. Specialist {{assigned_specialist}} is ready to assist.
+
+  whatsapp:
+    text: |
+      Hey {{customer_name}} 👋  
+      We’ve detected a *{{risk_score}}%* risk of you leaving us, based on {{churn_indicators | join(", ")}}.  
+      You’re valued at {{customer_lifetime_value}}—here’s something just for you:  
+      {{retention_offer}}  
+      Chat with {{assigned_specialist}} anytime!
+
+  push:
+    title: "Churn Risk: {{customer_name}} ({{risk_score}}%)"
+    body: "Offer: {{retention_offer}} · Specialist: {{assigned_specialist}}"
+
+variables:
+  required:
+    - customer_name
+    - risk_score
+    - churn_indicators
+    - customer_lifetime_value
+    - retention_offer
+    - assigned_specialist
+  optional: []
+
+# THIS is what matters – show them how to use it
+examples:
+  - description: "Basic usage"
+    data:
+      customer_name: "John Doe"
+      risk_score: 78
+      churn_indicators:
+        - "decline in logins"
+        - "no purchases in 30 days"
+      customer_lifetime_value: "$1,200"
+      retention_offer: "15% off your next month’s plan"
+      assigned_specialist: "Alice Patel"

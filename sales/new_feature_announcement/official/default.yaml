@@ -1,0 +1,83 @@
+# Better structure – focused on what developers need
+version: "1.0"
+id: "new_feature_announcement"
+name: "New Feature Announcement"
+description: "Notify users about a newly launched product feature"
+category: "sales"
+tags: ["product-launch", "announcement", "sales"]
+
+channels:
+  email:
+    subject: "🚀 Introducing {{feature_name}} – Elevate Your Experience"
+    body: |
+      Hi {{user_name}},
+
+      We’re excited to announce the launch of **{{feature_name}}**, designed to help you {{benefits}}.
+
+      What’s in it for you?
+      • **Use Cases:** {{use_cases}}
+      • **Pricing Impact:** {{pricing_impact}}
+      • **Migration Path:** {{migration_path}}
+
+      To get started, simply log in and visit the “What’s New” section.  
+      If you have any questions, reply to this email and our team will be happy to help.
+
+      Cheers,  
+      The Product Team
+
+  slack:
+    text: |
+      🚀 *{{feature_name}}* is here!  
+      • Benefits: {{benefits}}  
+      • Use Cases: {{use_cases}}  
+      • Pricing change: {{pricing_impact}}  
+      • Migration: {{migration_path}}  
+      Check your email or reply here for details.
+
+  teams:
+    text: |
+      **New Feature Alert:** {{feature_name}}  
+      • *Benefits:* {{benefits}}  
+      • *Use Cases:* {{use_cases}}  
+      • *Pricing Impact:* {{pricing_impact}}  
+      • *Migration Path:* {{migration_path}}  
+      Read more in your inbox or reach out if you need help.
+
+  sms:
+    text: "New: {{feature_name}}! Enables {{benefits}}. See email for details or contact support. Msg&data rates may apply."
+
+  whatsapp:
+    text: |
+      Hello there!  
+      We’ve just launched *{{feature_name}}*, which will help you {{benefits}}.  
+      Key points:  
+      – Use Cases: {{use_cases}}  
+      – Pricing Impact: {{pricing_impact}}  
+      – Migration Path: {{migration_path}}  
+
+      Tap here to learn more: https://yourapp.example.com/whats-new
+
+  push:
+    title: "New Feature: {{feature_name}}"
+    body: "Now live – {{feature_name}} to help you {{benefits}}. Tap to explore!"
+
+variables:
+  required:
+    - feature_name
+    - benefits
+    - use_cases
+    - pricing_impact
+    - migration_path
+    - user_name
+  optional: []
+
+# THIS is what matters – show them how to use it
+examples:
+  - description: "Basic usage"
+    data:
+      feature_name: "Smart Insights"
+      benefits: "make data-driven decisions in seconds"
+      use_cases: "dashboards, trend analysis, custom reports"
+      pricing_impact: "no additional cost for existing plans"
+      migration_path: "auto-upgrade; just refresh your dashboard"
+      user_name: "Alex"

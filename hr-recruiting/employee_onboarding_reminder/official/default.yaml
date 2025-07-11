@@ -1,0 +1,89 @@
+# Better structure - focused on what developers need
+version: "1.0"
+id: "employee_onboarding_reminder"
+name: "New Employee Onboarding Reminder"
+description: "Remind a new hire about their onboarding tasks ahead of their start date"
+category: "hr-recruiting"
+tags: ["hr", "onboarding", "reminder", "new-employee"]
+
+channels:
+  email:
+    subject: "📋 Reminder: Your Upcoming First Day on {{start_date}}"
+    body: |
+      Hi {{employee_name}},
+
+      Welcome aboard! As you prepare to join us on {{start_date}}, please complete the following tasks by {{task_deadline}}:
+
+      {{#each pending_tasks}}
+      • {{this}}
+      {{/each}}
+
+      Your onboarding buddy, {{onboarding_buddy_name}}, will meet you at {{first_day_location}} on Day 1.{{#if parking_info}}
+
+      Parking Info: {{parking_info}}{{/if}}
+
+      Let us know if you have any questions. We look forward to seeing you!
+
+      Best,
+      The HR Team
+
+  slack:
+    text: >
+      Hey {{employee_name}} — just a heads up: your onboarding tasks for Day 1 ({{start_date}}) are due by {{task_deadline}}. Ping {{onboarding_buddy_name}} if you need anything.
+
+  teams:
+    message: |
+      Hi {{employee_name}},
+      👋 Your start date is {{start_date}}! Please wrap up these tasks by {{task_deadline}}:
+      {{#each pending_tasks}}
+      - {{this}}
+      {{/each}}
+      {{#if parking_info}}Parking: {{parking_info}}
+      {{/if}}
+      {{#if onboarding_buddy_name}}Onboarding buddy: {{onboarding_buddy_name}}
+      {{/if}}
+      See you soon at {{first_day_location}}!
+
+  sms:
+    text: |
+      {{employee_name}}, reminder: complete your onboarding tasks by {{task_deadline}} before your first day on {{start_date}}. Questions? Ask {{onboarding_buddy_name}}.
+
+  whatsapp:
+    text: |
+      Hello {{employee_name}}! Your first day is on {{start_date}}. Please finish these tasks by {{task_deadline}}:
+      {{#each pending_tasks}}
+      • {{this}}
+      {{/each}}
+      {{#if parking_info}}Parking: {{parking_info}}
+      {{/if}}
+      Your onboarding buddy ({{onboarding_buddy_name}}) will meet you at {{first_day_location}}. Welcome aboard!
+
+  push:
+    title: "Onboarding Reminder: {{start_date}}"
+    body: "Hi {{employee_name}}, please complete your onboarding tasks by {{task_deadline}}. See you at {{first_day_location}}!"
+
+variables:
+  required:
+    - "employee_name"
+    - "start_date"
+    - "pending_tasks"
+    - "task_deadline"
+    - "onboarding_buddy_name"
+    - "first_day_location"
+  optional:
+    - "parking_info"
+
+# THIS is what matters - show them how to use it
+examples:
+  - description: "Basic usage"
+    data:
+      employee_name: "Alex Patel"
+      start_date: "2025-07-01"
+      pending_tasks:
+        - "Complete paperwork in Workday"
+        - "Review company handbook"
+        - "Submit direct deposit info"
+      task_deadline: "2025-06-28"
+      onboarding_buddy_name: "Priya Singh"
+      first_day_location: "Building A, 3rd Floor Lobby"
+      parking_info: "Visitor parking available in Lot C"

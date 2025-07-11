@@ -1,0 +1,81 @@
+# Better structure – focused on what developers need
+version: "1.0"
+id: "ab_test_complete"
+name: "A/B Test Completed"
+description: "Notify stakeholders when an A/B marketing test finishes and share the results"
+category: "marketing"
+tags: ["marketing", "ab-test", "notification"]
+
+channels:
+  email:
+    subject: "📊 A/B Test \"{{test_name}}\" Results Are In!"
+    body: |
+      Hi there,
+
+      The A/B test **{{test_name}}** has completed. Here’s what we found:
+
+      • **Variant A Performance**: {{variant_a_performance}}  
+      • **Variant B Performance**: {{variant_b_performance}}  
+      • **Winner**: {{winner_variant}} (Confidence: {{confidence_level}}%)  
+
+      Next steps:  
+      {{recommended_next_steps}}
+
+      Cheers,  
+      The Marketing Team
+
+  slack:
+    text: >
+      :bar_chart: *A/B Test Complete – {{test_name}}*
+      A: {{variant_a_performance}} | B: {{variant_b_performance}}
+      Winner: *{{winner_variant}}* ({{confidence_level}}% confidence)
+      Next: {{recommended_next_steps}}
+
+  teams:
+    text: |
+      **A/B Test Complete – "{{test_name}}"**
+      ‣ Variant A: {{variant_a_performance}}  
+      ‣ Variant B: {{variant_b_performance}}  
+      **Winner:** {{winner_variant}} ({{confidence_level}}% confidence)  
+      **Next Steps:** {{recommended_next_steps}}
+
+  sms:
+    text: >
+      AB Test "{{test_name}}" done. A: {{variant_a_performance}}, B: {{variant_b_performance}}.
+      Winner: {{winner_variant}} ({{confidence_level}}%).
+      Next: {{recommended_next_steps}}.
+
+  whatsapp:
+    text: |
+      ✅ *A/B Test Completed*  
+      *Test:* {{test_name}}  
+      • A Performance: {{variant_a_performance}}  
+      • B Performance: {{variant_b_performance}}  
+      🔥 *Winner:* {{winner_variant}} ({{confidence_level}}% confidence)  
+      📝 *Next Steps:* {{recommended_next_steps}}
+
+  push:
+    title: "A/B Test \"{{test_name}}\" Results"
+    body: >
+      Winner: {{winner_variant}} ({{confidence_level}}% confidence). Tap for next steps.
+
+variables:
+  required:
+    - test_name
+    - variant_a_performance
+    - variant_b_performance
+    - winner_variant
+    - confidence_level
+    - recommended_next_steps
+  optional: []
+
+# Examples of usage
+examples:
+  - description: "Basic usage"
+    data:
+      test_name: "Spring Promo Banner"
+      variant_a_performance: "CTR 4.2%"
+      variant_b_performance: "CTR 5.8%"
+      winner_variant: "B"
+      confidence_level: "92"
+      recommended_next_steps: "Roll out variant B sitewide and revisit copy in two weeks"

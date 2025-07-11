@@ -1,0 +1,53 @@
+# Better structure – focused on what developers need
+version: "1.0"
+id: "cart_abandonment_alert"
+name: "Abandoned Cart Recovery"
+description: "Remind customers about items left in their cart and incentivize them to complete their purchase"
+category: "marketing"
+tags: ["marketing", "ecommerce", "cart", "reminder"]
+
+channels:
+  email:
+    subject: "⏳ {{customer_name}}, your items are waiting! Get {{recovery_discount}} off now"
+    body: |
+      Hi {{customer_name}},
+
+      We noticed you left {{abandoned_items}} in your cart {{time_since_abandonment}} ago, totaling ${{cart_value}}.
+
+      Use code **{{recovery_discount}}** at checkout to save on your favorites. {{urgency_message}}
+
+      Happy shopping,
+      The Team
+  slack:
+    text: "🚨 Hey {{customer_name}}, your cart with {{abandoned_items}} (${{cart_value}}) is still waiting! Use {{recovery_discount}} before it's gone. {{urgency_message}}"
+  teams:
+    text: "📦 {{customer_name}}, you’ve left items worth ${{cart_value}} in your cart. Grab {{recovery_discount}} off today! {{urgency_message}}"
+  sms:
+    text: "Hi {{customer_name}}, you left {{abandoned_items}} worth ${{cart_value}} in your cart. Take {{recovery_discount}} off now! {{urgency_message}}"
+  whatsapp:
+    text: |
+      👋 {{customer_name}},
+
+      It’s been {{time_since_abandonment}} since you left {{abandoned_items}} (worth ${{cart_value}}) in your cart.
+
+      Here’s {{recovery_discount}} off to help you complete your order. {{urgency_message}}
+
+      Reply YES to grab it now!
+  push:
+    title: "🛒 Your cart awaits, {{customer_name}}!"
+    body: "You left items totaling ${{cart_value}}. Apply {{recovery_discount}} and complete your purchase. {{urgency_message}}"
+
+variables:
+  required: ["customer_name", "cart_value", "abandoned_items", "time_since_abandonment", "recovery_discount", "urgency_message"]
+  optional: []
+
+# THIS is what matters – show them how to use it
+examples:
+  - description: "Basic usage"
+    data:
+      customer_name: "Alex"
+      cart_value: "89.99"
+      abandoned_items: "Sneaker and T-shirt"
+      time_since_abandonment: "2 hours"
+      recovery_discount: "15% OFF"
+      urgency_message: "Hurry—offer expires in 24 hours!"

@@ -1,0 +1,56 @@
+# Better structure – focused on what developers need
+version: "1.0"
+id: "payment_failed"
+name: "Payment Failed"
+description: "Notify user when a payment transaction fails"
+category: "financial-operations"
+tags: ["payment", "failure", "notification"]
+
+channels:
+  email:
+    subject: "⚠️ Payment failed for Transaction {{transaction_id}}"
+    body: |
+      Hi there,
+
+      Unfortunately, your payment (Transaction ID: {{transaction_id}}) could not be processed.
+
+      Reason: {{failure_reason}}
+
+      You can try again using one of these options:
+      {{retry_options}}
+
+      If you need any help, just hit reply.
+
+  slack:
+    text: ":warning: *Payment Failed* ({{transaction_id}})\n• Reason: {{failure_reason}}\n• Retry: {{retry_options}}"
+
+  teams:
+    text: "⚠️ Payment failed for ID {{transaction_id}}. Reason: {{failure_reason}}. Retry options: {{retry_options}}"
+
+  sms:
+    text: "Payment {{transaction_id}} failed: {{failure_reason}}. Retry: {{retry_options}}"
+
+  whatsapp:
+    text: |
+      Hi there, your payment (ID: {{transaction_id}}) failed due to {{failure_reason}}.
+      To retry, please:
+      {{retry_options}}
+      Let us know if you need help.
+
+  push:
+    title: "Payment Failed"
+    message: "Tx {{transaction_id}} failed: {{failure_reason}}. Tap to retry."
+
+variables:
+  required: ["transaction_id", "failure_reason", "retry_options"]
+  optional: []
+
+# THIS is what matters – show them how to use it
+examples:
+  - description: "Basic usage"
+    data:
+      transaction_id: "TXN-98765"
+      failure_reason: "Insufficient funds"
+      retry_options: |
+        - Update your payment method
+        - Try a different card

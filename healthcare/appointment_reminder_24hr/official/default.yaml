@@ -1,0 +1,80 @@
+# Better structure - focused on what developers need
+version: "1.0"
+id: "appointment_reminder_24hr"
+name: "Appointment Reminder (24 Hours)"
+description: "Remind patient 24 hours before a healthcare appointment"
+category: "appointment-management"
+tags: ["healthcare", "appointment", "reminder", "notification"]
+
+channels:
+  email:
+    subject: "⏰ 24-Hour Reminder: Your appointment with {{provider_name}}"
+    body: |
+      Hi {{patient_name}},
+
+      Just a friendly reminder that you have an appointment tomorrow:
+
+      • **When:** {{appointment_date}} at {{appointment_time}}  
+      • **With:** {{provider_name}}  
+      • **Where:** {{location}}  
+
+      Preparation Instructions:  
+      {{preparation_instructions}}
+
+      If you need to reschedule, please visit:  
+      {{rescheduling_link}}
+
+      We look forward to seeing you!
+
+      — Your Healthcare Team
+
+  slack:
+    text: ":calendar: *Reminder:* {{patient_name}}, you’re scheduled with {{provider_name}} tomorrow at {{appointment_time}} ({{location}}). Prep: {{preparation_instructions}}. Reschedule: {{rescheduling_link}}"
+
+  teams:
+    text: "**Appointment Reminder**\n\n**Who:** {{patient_name}}\n**Provider:** {{provider_name}}\n**When:** {{appointment_date}} at {{appointment_time}}\n**Where:** {{location}}\n\n{{preparation_instructions}}\n\n🔄 Reschedule: {{rescheduling_link}}"
+
+  sms:
+    text: "Reminder: Your appointment with {{provider_name}} is on {{appointment_date}} at {{appointment_time}}. Please arrive 15 mins early. Reschedule: {{rescheduling_link}}"
+
+  whatsapp:
+    text: |
+      Hi {{patient_name}} 👋
+
+      This is a reminder for your appointment tomorrow:
+      • *When:* {{appointment_date}} at {{appointment_time}}
+      • *Provider:* {{provider_name}}
+      • *Location:* {{location}}
+
+      {{preparation_instructions}}
+
+      Need to change? Click here: {{rescheduling_link}}
+
+      See you soon!
+
+  push:
+    title: "Appointment Tomorrow: {{provider_name}}"
+    body: "You have an appointment with {{provider_name}} on {{appointment_date}} at {{appointment_time}}. Tap to view details or reschedule."
+
+variables:
+  required:
+    - "patient_name"
+    - "appointment_date"
+    - "appointment_time"
+    - "provider_name"
+    - "location"
+    - "preparation_instructions"
+    - "rescheduling_link"
+  optional: []
+
+# THIS is what matters - show them how to use it
+examples:
+  - description: "Basic usage"
+    data:
+      patient_name: "John Doe"
+      appointment_date: "July 11, 2025"
+      appointment_time: "10:00 AM"
+      provider_name: "Dr. Smith"
+      location: "123 Main St, Suite 100"
+      preparation_instructions: "Please arrive 15 minutes early and fast for at least 8 hours prior."
+      rescheduling_link: "https://reschedule.example.com/abc123"

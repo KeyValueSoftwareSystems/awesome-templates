@@ -1,0 +1,72 @@
+# Better structure - focused on what developers need
+version: "1.0"
+id: "web_lead_welcome"
+name: "Website Lead Welcome"
+description: "Welcome a new lead who submitted the website form"
+category: "sales"
+tags: ["lead", "welcome", "web", "sales", "initial-contact"]
+
+channels:
+  email:
+    subject: "👋 Hi {{lead_name}}, thanks for reaching out about {{product_interest}}!"
+    body: |
+      Hi {{lead_name}},
+
+      Thanks for your interest in {{product_interest}}! We received your request via {{form_source}}.
+
+      A bit about you:
+      • Company: {{company}} ({{company_size}})
+      • Industry: {{industry}}
+
+      One of our sales specialists will reach out shortly to learn more about your needs and show you how SIREN can help your team.
+
+      Talk soon,
+      The SIREN Team
+
+  slack:
+    text: |
+      :wave: New web lead: *{{lead_name}}* from *{{company}}* ({{industry}}, {{company_size}})
+      Interested in *{{product_interest}}*. Source: {{form_source}}.
+
+  teams:
+    text: |
+      👤 **New Lead**  
+      **Name:** {{lead_name}}  
+      **Company:** {{company}} ({{company_size}})  
+      **Industry:** {{industry}}  
+      **Interest:** {{product_interest}}  
+      **Source:** {{form_source}}
+
+  sms:
+    text: "Hi {{lead_name}}, thanks for asking about {{product_interest}}! We’ll be in touch soon. – SIREN Team"
+
+  whatsapp:
+    text: |
+      Hey {{lead_name}}!  
+      Thanks for contacting us through {{form_source}} about {{product_interest}}.  
+      Someone from SIREN will reach out shortly to discuss how we can support {{company}}. 😊
+
+  push:
+    title: "New web lead: {{lead_name}}"
+    message: "{{lead_name}} from {{company}} ({{industry}}) is interested in {{product_interest}}."
+
+variables:
+  required:
+    - lead_name
+    - company
+    - form_source
+    - product_interest
+  optional:
+    - company_size
+    - industry
+
+# THIS is what matters - show them how to use it
+examples:
+  - description: "Basic usage for a small manufacturing lead"
+    data:
+      lead_name: "Aarav Patel"
+      company: "Patel Manufacturing Co."
+      form_source: "Website Contact Form"
+      product_interest: "SIREN Notification Workflows"
+      company_size: "50–100 employees"
+      industry: "Manufacturing"

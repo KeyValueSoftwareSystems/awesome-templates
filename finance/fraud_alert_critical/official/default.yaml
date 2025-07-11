@@ -1,0 +1,84 @@
+# Better structure – focused on what developers need
+version: "1.0"
+id: "fraud_alert_critical"
+name: "Fraud Alert Notification"
+description: "Notify user of a suspected high-risk transaction requiring immediate action"
+category: "finance"
+tags: ["fraud", "alert", "critical", "notification"]
+
+channels:
+  email:
+    subject: "🚨 Fraud Alert on {{account_number}} – Immediate Attention Required"
+    body: |
+      Hi there,
+
+      We’ve detected a potentially fraudulent charge on your account **{{account_number}}**:
+
+      • Amount: {{transaction_amount}}  
+      • Merchant: {{merchant_name}}  
+      • Location: {{location}}  
+      • Time: {{timestamp}}  
+      • Risk Score: {{risk_score}}/100
+
+      Please {{action_required}} as soon as possible to secure your account.
+
+      If this was you, no further action is needed.  
+      For assistance, reply to this email or call our 24/7 support.
+
+      Stay safe,
+      Your Finance Team
+
+  slack:
+    text: >
+      🚨 *Fraud Alert* on acct `{{account_number}}`: {{transaction_amount}} at {{merchant_name}} ({{location}}) on {{timestamp}}. Risk: {{risk_score}}. {{action_required}}.
+
+  teams:
+    text: >
+      🚨 Fraud Alert for {{account_number}}  
+      Amount: {{transaction_amount}} | Merchant: {{merchant_name}}  
+      Loc: {{location}} | Time: {{timestamp}}  
+      Risk: {{risk_score}}/100  
+      {{action_required}}
+
+  sms:
+    text: >
+      FRAUD ALERT 🚨 Acct {{account_number}}: {{transaction_amount}} at {{merchant_name}}. Risk {{risk_score}}. {{action_required}}.
+
+  whatsapp:
+    text: |
+      *🚨 Fraud Alert*  
+      Account: *{{account_number}}*  
+      Amount: *{{transaction_amount}}*  
+      Merchant: *{{merchant_name}}*  
+      Location: *{{location}}*  
+      Time: *{{timestamp}}*  
+      Risk Score: *{{risk_score}}/100*  
+
+      _{{action_required}} immediately to protect your account._
+
+  push:
+    title: "🚨 Fraud Alert: {{transaction_amount}}"
+    body: "{{merchant_name}} @ {{location}} on {{timestamp}} (Risk {{risk_score}}). {{action_required}}."
+
+variables:
+  required: 
+    - "account_number"
+    - "transaction_amount"
+    - "merchant_name"
+    - "location"
+    - "timestamp"
+    - "risk_score"
+    - "action_required"
+  optional: []
+
+# THIS is what matters – show them how to use it
+examples:
+  - description: "Critical fraud alert – example data"
+    data:
+      account_number: "XXXX-1234"
+      transaction_amount: "$1,250.00"
+      merchant_name: "Premium Electronics"
+      location: "New York, NY"
+      timestamp: "2025-06-23T14:52:00Z"
+      risk_score: "92"
+      action_required: "Please confirm or freeze the transaction"

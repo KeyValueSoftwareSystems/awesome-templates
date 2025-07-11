@@ -1,0 +1,50 @@
+# Better structure - focused on what developers need
+version: "1.0"
+id: "handoff_notification"
+name: "Agent Handoff Notification"
+description: "Notify when a support ticket is handed off from one agent to another"
+category: "customer-support"
+tags: ["handoff", "collaboration", "notification"]
+
+channels:
+  email:
+    subject: "🔄 Support Ticket Handoff: {{previous_agent}} → {{new_agent}}"
+    body: |
+      Hi {{new_agent}},
+
+      {{previous_agent}} has handed off the support ticket to you. Here's the context you need:
+
+      {{context_summary}}
+
+      Please take over and ensure the customer gets the best assistance.
+
+      Thanks,
+      The Support Team
+
+  slack:
+    text: ":arrows_counterclockwise: Ticket handoff from *{{previous_agent}}* to *{{new_agent}}*. Context: {{context_summary}}"
+
+  teams:
+    text: "🔄 Support ticket transferred from **{{previous_agent}}** to **{{new_agent}}**.\n\n**Context:** {{context_summary}}"
+
+  sms:
+    text: "Ticket assigned from {{previous_agent}} to {{new_agent}}. Context: {{context_summary}}"
+
+  whatsapp:
+    text: "🔄 *Support Ticket Handoff*\nFrom: {{previous_agent}}\nTo: {{new_agent}}\n\n*Context:* {{context_summary}}\n\nPlease follow up with the customer ASAP."
+
+  push:
+    title: "Ticket Handoff: {{previous_agent}} → {{new_agent}}"
+    body: "{{previous_agent}} has handed off the ticket to you. Tap to view details."
+
+variables:
+  required: ["previous_agent", "new_agent", "context_summary"]
+  optional: []
+
+# THIS is what matters - show them how to use it
+examples:
+  - description: "Basic usage"
+    data:
+      previous_agent: "Alice"
+      new_agent: "Bob"
+      context_summary: "Customer reports intermittent login timeouts when using the mobile app."

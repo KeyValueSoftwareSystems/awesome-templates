@@ -1,0 +1,60 @@
+# Better structure - focused on what developers need
+version: "1.0"
+id: "feature_status_update"
+name: "Feature Request Status Update"
+description: "Notify customers about the current status of their feature request"
+category: "customer-support"
+tags: ["feature", "update", "notification"]
+
+channels:
+  email:
+    subject: "🔔 Update on your requested feature: {{feature_name}}"
+    body: |
+      Hi {{customer_name}},
+
+      We wanted to let you know where we stand on your requested feature, **{{feature_name}}**.
+
+      • **Current stage:** {{current_stage}}  
+      • **Expected release:** {{release_timeline}}
+
+      Thank you for helping us improve! If you have any questions, just reply to this email.
+
+      Cheers,  
+      The SIREN Support Team
+
+  slack:
+    text: ":information_source: *{{feature_name}}* is now in *{{current_stage}}*. ETA: {{release_timeline}}."
+
+  teams:
+    text: |
+      **Feature Update:** {{feature_name}}
+      - **Stage:** {{current_stage}}
+      - **Release ETA:** {{release_timeline}}
+
+      Thanks for your feedback!
+
+  sms:
+    text: "Update: '{{feature_name}}' is in '{{current_stage}}'. ETA: {{release_timeline}}."
+
+  whatsapp:
+    text: |
+      Hello! 👋
+      Your requested feature *{{feature_name}}* has moved to *{{current_stage}}*.  
+      Release planned: {{release_timeline}}.  
+      We appreciate your patience!
+
+  push:
+    title: "Feature Update: {{feature_name}}"
+    message: "Now in {{current_stage}} – coming {{release_timeline}}."
+
+variables:
+  required: ["feature_name", "current_stage", "release_timeline"]
+  optional: ["customer_name"]
+
+examples:
+  - description: "Basic usage"
+    data:
+      feature_name: "Dark Mode"
+      current_stage: "In QA"
+      release_timeline: "July 15, 2025"
+      customer_name: "Raj"

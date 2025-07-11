@@ -1,0 +1,62 @@
+# Better structure - focused on what developers need
+version: "1.0"
+id: "deal_closed_notification"
+name: "Deal Closed Notification"
+description: "Announce team victory when a sales deal is closed"
+category: "sales"
+tags: ["sales", "deal", "announcement", "team-win"]
+
+channels:
+  email:
+    subject: "🏆 Deal Closed! {{customer_name}} — ${{deal_value}} Secured"
+    body: |
+      Hi Team,
+
+      I’m thrilled to announce we’ve closed a deal with **{{customer_name}}** valued at **${{deal_value}}**.
+
+      🎯 **Team Members:**  
+      {{team_members}}
+
+      📌 **Key Factors:**  
+      {{key_factors}}
+
+      💡 **Lessons Learned:**  
+      {{lessons_learned}}
+
+      Let’s keep this momentum going!
+
+  slack:
+    text: ":tada: *Deal Closed!* {{customer_name}} for ${{deal_value}}. Shout-out to {{team_members}}! Key factors: {{key_factors}}."
+
+  teams:
+    text: "🎉 Deal closed with {{customer_name}} (${{deal_value}})! Kudos to {{team_members}}. Read key takeaways in channel."
+
+  sms:
+    text: "Congrats! Deal with {{customer_name}} (${{deal_value}}) closed. Well done {{team_members}}!"
+
+  whatsapp:
+    text: "Great news: we’ve secured a ${{deal_value}} deal with {{customer_name}}! Team: {{team_members}}. Key factors: {{key_factors}}. Lessons: {{lessons_learned}}."
+
+  push:
+    title: "🏆 ${{deal_value}} Deal Closed!"
+    message: "{{customer_name}} deal closed. Tap for details and kudos to {{team_members}}."
+
+variables:
+  required: ["customer_name", "deal_value", "team_members", "key_factors", "lessons_learned"]
+  optional: []
+
+# THIS is what matters - show them how to use it
+examples:
+  - description: "Basic usage"
+    data:
+      customer_name: "Acme Corp"
+      deal_value: "125000"
+      team_members: "Alice, Bob, and Carol"
+      key_factors: |
+        - Strong product-market fit  
+        - Excellent demo performance  
+        - Competitive pricing
+      lessons_learned: |
+        - Prepare deeper case studies  
+        - Streamline contract process  
+        - Engage finance earlier

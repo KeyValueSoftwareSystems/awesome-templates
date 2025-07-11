@@ -1,0 +1,72 @@
+# Better structure - focused on what developers need
+version: "1.0"
+id: "interview_feedback_reminder"
+name: "Interview Feedback Reminder"
+description: "Prompt interviewers to submit feedback for a recent candidate interview"
+category: "hr/recruiting"
+tags: ["hr", "recruiting", "interview", "reminder", "feedback"]
+
+channels:
+  email:
+    subject: "Reminder: Feedback for {{candidate_name}}'s interview on {{interview_date}}"
+    body: |
+      Hi {{interviewer_name}},
+
+      Thanks for interviewing {{candidate_name}} on {{interview_date}}. To keep our hiring process moving smoothly, please submit your feedback by **{{feedback_deadline}}**.
+
+      You can share your thoughts here:
+      {{feedback_form_link}}
+
+      Once all feedback is in, we’ll let you know the final timeline for hiring decisions (estimated around {{hiring_decision_timeline}}).
+
+      Cheers,
+      Talent Acquisition Team
+
+  slack:
+    text: |
+      👋 Hi {{interviewer_name}}, quick reminder to complete feedback for {{candidate_name}}’s interview on {{interview_date}}.  
+      🔗 {{feedback_form_link}}  
+      Please submit by {{feedback_deadline}}.
+
+  teams:
+    text: |
+      Hi {{interviewer_name}},  
+      Please remember to provide your feedback for {{candidate_name}}’s interview ({{interview_date}}) by {{feedback_deadline}}:  
+      {{feedback_form_link}}
+
+  sms:
+    text: "Reminder: Please submit feedback for {{candidate_name}}’s {{interview_date}} interview by {{feedback_deadline}}: {{feedback_form_link}}"
+
+  whatsapp:
+    text: |
+      Hello {{interviewer_name}}!  
+      This is a friendly nudge to complete your interview feedback for {{candidate_name}} (Interview Date: {{interview_date}}).  
+      📋 Submit by: {{feedback_deadline}}  
+      🔗 {{feedback_form_link}}  
+      Hiring decision timeline: {{hiring_decision_timeline}}.
+
+  push:
+    title: "Feedback Due: {{candidate_name}}"
+    body: "Please submit your interview feedback by {{feedback_deadline}}. Tap here to fill out the form."
+    data:
+      url: "{{feedback_form_link}}"
+
+variables:
+  required:
+    - interviewer_name
+    - candidate_name
+    - interview_date
+    - feedback_deadline
+    - feedback_form_link
+  optional:
+    - hiring_decision_timeline
+
+examples:
+  - description: "Basic usage"
+    data:
+      interviewer_name: "Priya Sharma"
+      candidate_name: "Rohan Verma"
+      interview_date: "2025-06-20"
+      feedback_deadline: "2025-06-24"
+      feedback_form_link: "https://company.app/feedback/rohan-verma"
+      hiring_decision_timeline: "end of June"

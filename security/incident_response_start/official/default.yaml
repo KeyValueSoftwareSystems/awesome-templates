@@ -1,0 +1,87 @@
+# Better structure - focused on what developers need
+version: "1.0"
+id: "incident_response_start"
+name: "Incident Response Initiation"
+description: "Notify stakeholders when a security incident response is kicked off"
+category: "security-incident-response"
+tags: ["security", "incident", "notification", "response"]
+
+channels:
+  email:
+    subject: "🚨 Incident {{incident_id}} Initiated – Severity: {{severity}}"
+    body: |
+      Hi Team,
+      
+      A new security incident has been initiated.
+      
+      Incident ID: {{incident_id}}  
+      Type       : {{incident_type}}  
+      Severity   : {{severity}}  
+      Systems    : {{affected_systems}}  
+      Impact Est.: {{estimated_impact}}
+      
+      Response Team: {{response_team}}  
+      War Room    : {{war_room_link}}
+      
+      Please join the war room immediately and follow the incident response playbook.
+      
+      — Security Operations
+
+  slack:
+    text: |
+      🚨 *Incident {{incident_id}}* has started  
+      • Type: {{incident_type}}  
+      • Severity: {{severity}}  
+      • Systems: {{affected_systems}}  
+      • Team: {{response_team}}  
+      War room → {{war_room_link}}
+
+  teams:
+    text: |
+      🚨 **Incident {{incident_id}} Initiated**
+      - **Type:** {{incident_type}}
+      - **Severity:** {{severity}}
+      - **Affected Systems:** {{affected_systems}}
+      - **Response Team:** {{response_team}}
+      Join war room: {{war_room_link}}
+
+  sms:
+    text: >
+      INC {{incident_id}} started ({{severity}}). Type: {{incident_type}}. Team: {{response_team}}. War room: {{war_room_link}}
+
+  whatsapp:
+    text: |
+      🚨 Incident {{incident_id}} initiated!
+      • Type: {{incident_type}}
+      • Severity: {{severity}}
+      • Affected: {{affected_systems}}
+      • Team: {{response_team}}
+      • Est. Impact: {{estimated_impact}}
+      Join war room: {{war_room_link}}
+
+  push:
+    title: "Incident {{incident_id}} Started"
+    body: "Severity: {{severity}} | Type: {{incident_type}} – Tap to join war room."
+
+variables:
+  required:
+    - "incident_id"
+    - "incident_type"
+    - "severity"
+    - "affected_systems"
+    - "response_team"
+    - "estimated_impact"
+    - "war_room_link"
+  optional: []
+
+# THIS is what matters – show them how to use it
+examples:
+  - description: "Basic usage"
+    data:
+      incident_id: "INC-2025-0423"
+      incident_type: "Unauthorized Access"
+      severity: "High"
+      affected_systems: "Auth Service, User DB"
+      response_team: "SecOps Team A"
+      estimated_impact: "Potential data exposure"
+      war_room_link: "https://warroom.example.com/INC-2025-0423"

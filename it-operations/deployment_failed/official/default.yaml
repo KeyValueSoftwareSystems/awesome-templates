@@ -1,0 +1,73 @@
+# Better structure - focused on what developers need
+version: "1.0"
+id: "deployment_failed"
+name: "Deployment Failure Alert"
+description: "Notify IT Operations when a deployment fails"
+category: "hr-it-operations"
+tags: ["deployment", "failure", "alert", "it-ops"]
+
+channels:
+  email:
+    subject: "🚨 Deployment {{deployment_id}} Failed at {{failure_stage}}"
+    body: |
+      Hi Team,
+      
+      The recent deployment has encountered an issue.
+      
+      • Deployment ID: {{deployment_id}}  
+      • Failure Stage: {{failure_stage}}  
+      • Error Details: {{error_details}}  
+      • Rollback Status: {{rollback_status}}  
+      • Incident Ticket: {{incident_ticket}}  
+
+      Please investigate and take corrective action.
+      
+      — SIREN Notification System
+
+  slack:
+    text: |
+      🚨 *Deployment {{deployment_id}} failed at {{failure_stage}}*
+      ‣ Error: {{error_details}}
+      ‣ Rollback: {{rollback_status}}
+      ‣ Ticket: {{incident_ticket}}
+
+  teams:
+    text: |
+      **Deployment Failure Alert**
+      • **ID**: {{deployment_id}}  
+      • **Stage**: {{failure_stage}}  
+      • **Error**: {{error_details}}  
+      • **Rollback**: {{rollback_status}}  
+      • **Ticket**: {{incident_ticket}}
+
+  sms:
+    text: "ALERT: Deployment {{deployment_id}} failed at {{failure_stage}}. Ticket: {{incident_ticket}}. Check email for details."
+
+  whatsapp:
+    text: |
+      🚨 *Deployment Failed*
+      • *ID:* {{deployment_id}}
+      • *Stage:* {{failure_stage}}
+      • *Error:* {{error_details}}
+      • *Rollback:* {{rollback_status}}
+      • *Ticket:* {{incident_ticket}}
+
+      Please review immediately.
+
+  push:
+    title: "Deployment {{deployment_id}} Failure"
+    body: "Failed at {{failure_stage}} (Ticket: {{incident_ticket}})."
+
+variables:
+  required: ["deployment_id", "failure_stage", "error_details", "rollback_status", "incident_ticket"]
+  optional: []
+
+# THIS is what matters - show them how to use it
+examples:
+  - description: "Basic usage"
+    data:
+      deployment_id: "DEP-20250623-01"
+      failure_stage: "Database Migration"
+      error_details: "Timeout connecting to replica set"
+      rollback_status: "Completed"
+      incident_ticket: "INC-7890"

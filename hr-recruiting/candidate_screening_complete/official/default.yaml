@@ -1,0 +1,80 @@
+# Better structure - focused on what developers need
+version: "1.0"
+id: "candidate_screening_complete"
+name: "Candidate Screening Complete"
+description: "Notify stakeholders when a candidate's initial screening is complete"
+category: "hr-recruiting"
+tags: ["hr", "recruiting", "notification", "screening"]
+
+variables:
+  required: 
+    - "candidate_name"
+    - "position_title"
+    - "screening_score"
+    - "key_skills_matched"
+    - "potential_concerns"
+    - "recruiter_name"
+    - "screening_summary_link"
+  optional: []
+
+channels:
+  email:
+    subject: "✅ Initial Screening Complete for {{candidate_name}}"
+    body: |
+      Hello {{recruiter_name}},
+
+      The initial screening for **{{candidate_name}}** (Position: _{{position_title}}_) has been completed.
+
+      • Screening Score: **{{screening_score}}/100**  
+      • Key Skills Matched: {{key_skills_matched}}  
+      • Potential Concerns: {{potential_concerns}}
+
+      You can review full details and next steps here:  
+      {{screening_summary_link}}
+
+      Regards,  
+      Talent Acquisition Team
+
+  slack:
+    text: |
+      :white_check_mark: Screening done for *{{candidate_name}}*  
+      • Role: {{position_title}}  
+      • Score: {{screening_score}}  
+      • Skills: {{key_skills_matched}}  
+      Next: <{{screening_summary_link}}|View summary>
+
+  teams:
+    text: |
+      **Candidate:** {{candidate_name}}  
+      **Position:** {{position_title}}  
+      **Score:** {{screening_score}}  
+      **Skills:** {{key_skills_matched}}  
+      Review details: {{screening_summary_link}}
+
+  sms:
+    text: >
+      Screening complete for {{candidate_name}} ({{position_title}}). Score {{screening_score}}. Check email or bit.ly/shortlink
+
+  whatsapp:
+    text: |
+      Hi {{recruiter_name}},  
+      Initial screening for *{{candidate_name}}* ({{position_title}}) is complete.  
+      Score: {{screening_score}}.  
+      Skills matched: {{key_skills_matched}}.  
+      Concerns: {{potential_concerns}}.  
+      Details → {{screening_summary_link}}
+
+  push:
+    title: "Screening Done: {{candidate_name}}"
+    body: "Score {{screening_score}} for {{position_title}}. Tap to view."
+
+examples:
+  - description: "Basic usage"
+    data:
+      candidate_name: "Alex Johnson"
+      position_title: "Product Manager"
+      screening_score: "85"
+      key_skills_matched: "Roadmapping, Stakeholder Management"
+      potential_concerns: "Limited mobile experience"
+      recruiter_name: "Priya Singh"
+      screening_summary_link: "https://app.yourcompany.com/screenings/SC-7890"

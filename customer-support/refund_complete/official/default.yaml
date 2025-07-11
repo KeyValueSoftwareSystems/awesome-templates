@@ -1,0 +1,61 @@
+# Better structure – focused on what developers need
+version: "1.0"
+id: "refund_complete"
+name: "Refund Processed"
+description: "Notify customer when their refund has been completed"
+category: "financial-operations"
+tags: ["refund", "notification", "financial-ops"]
+
+channels:
+  email:
+    subject: "💸 Your refund for Order #{{order_id}} is complete"
+    body: |
+      Hi {{customer_name}},
+
+      We’re writing to let you know that your refund has been processed successfully.
+
+      • Order ID: {{order_id}}  
+      • Amount Refunded: {{refund_amount}}  
+      • Payment Method: {{payment_method}}  
+      • Processed In: {{processing_time}}
+
+      You should see the refund on your statement within a few business days. If you have any questions, just reply to this email.
+
+      Thanks for shopping with us,
+      The Support Team
+
+  slack:
+    text: |
+      💸 Refund complete for Order #{{order_id}}  
+      Amount: {{refund_amount}} · Method: {{payment_method}} · Time: {{processing_time}}
+
+  teams:
+    text: |
+      💸 Your refund (Order #{{order_id}}) has been processed.  
+      Amount: {{refund_amount}} | Method: {{payment_method}} | Time: {{processing_time}}
+
+  sms:
+    text: >
+      Refund of {{refund_amount}} for Order #{{order_id}} is complete. It may take a few days to appear on your {{payment_method}} statement.
+
+  whatsapp:
+    text: |
+      Hi {{customer_name}}, good news! Your refund for Order #{{order_id}} ({{refund_amount}} via {{payment_method}}) was processed in {{processing_time}}. It should reflect on your account soon.
+
+  push:
+    title: "Refund Complete"
+    body: "Your {{refund_amount}} refund (Order #{{order_id}}) is on its way."
+
+variables:
+  required: ["order_id", "refund_amount", "processing_time", "payment_method"]
+  optional: []
+
+# THIS is what matters – show them how to use it
+examples:
+  - description: "Basic usage"
+    data:
+      order_id: "ORD-98765"
+      customer_name: "Anita Sharma"
+      refund_amount: "₹1,250.00"
+      payment_method: "Visa ending ••34"
+      processing_time: "2 hours"

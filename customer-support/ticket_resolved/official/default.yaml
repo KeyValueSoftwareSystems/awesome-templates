@@ -1,0 +1,59 @@
+# Better structure – focused on what developers need
+version: "1.0"
+id: "ticket_resolved"
+name: "Support Ticket Resolved"
+description: "Notify customer when a support ticket has been closed"
+category: "customer-support"
+tags: ["support", "ticket", "resolution", "notification"]
+
+channels:
+  email:
+    subject: "✅ Support Ticket #{{ticket_id}} Closed"
+    body: |
+      Hi {{customer_name}},
+
+      Good news—your support ticket (ID: {{ticket_id}}) regarding:
+      "{{issue_description}}"
+      has been resolved.
+
+      Resolution:
+      {{resolution_summary}}
+
+      If you have any further questions, feel free to reply to this email.
+
+      Thanks for using our service!
+      —The Support Team
+
+  slack:
+    text: "🎉 Ticket {{ticket_id}} has been resolved! Resolution: {{resolution_summary}}"
+
+  teams:
+    text: "✅ Support ticket {{ticket_id}} closed. Summary: {{resolution_summary}}"
+
+  sms:
+    text: "Ticket #{{ticket_id}} resolved. Check your email for details."
+
+  whatsapp:
+    text: |
+      Hello {{customer_name}},
+
+      Your support ticket #{{ticket_id}} about "{{issue_description}}" has been resolved.
+      Resolution: {{resolution_summary}}
+
+      Thank you for your patience!
+
+  push:
+    title: "Ticket #{{ticket_id}} Resolved"
+    body: "Hi {{customer_name}}, your support ticket has been closed with resolution: {{resolution_summary}}."
+
+variables:
+  required: ["ticket_id", "customer_name", "issue_description", "resolution_summary"]
+  optional: []
+
+examples:
+  - description: "Basic usage"
+    data:
+      ticket_id: "SUP-5678"
+      customer_name: "Alex"
+      issue_description: "Unable to upload profile picture"
+      resolution_summary: "Adjusted file size limit; profile picture uploaded successfully"

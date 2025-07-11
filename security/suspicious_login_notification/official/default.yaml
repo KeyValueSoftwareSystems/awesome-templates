@@ -1,0 +1,74 @@
+# Better structure - focused on what developers need
+version: "1.0"
+id: "suspicious_login_notification"
+name: "Suspicious Login Attempt Notification"
+description: "Alert user when a potentially fraudulent login is detected"
+category: "security"
+tags: ["security", "login", "alert", "notification"]
+
+channels:
+  email:
+    subject: "🔒 Suspicious Login Attempt Detected for {{user_email}}"
+    body: |
+      Hi there,
+
+      We detected a suspicious login attempt on your account:
+
+        • User:       {{user_email}}
+        • Time:       {{timestamp}}
+        • Location:   {{login_location}}
+        • Device:     {{device_info}}
+        • IP address: {{ip_address}}
+        • Risk score: {{risk_score}}
+
+      If this was you, please verify your activity here:
+      {{verification_link}}
+
+      If you did not attempt to log in, please secure your account immediately.
+
+      — The Security Team
+  slack:
+    text: "⚠️ Suspicious login for {{user_email}} from {{login_location}} (Risk: {{risk_score}}). Verify: {{verification_link}}"
+  teams:
+    text: "⚠️ Suspicious login detected for **{{user_email}}**\n• Location: {{login_location}}\n• Device: {{device_info}}\n• Risk: {{risk_score}}\n[Verify now]({{verification_link}})"
+  sms:
+    text: "Suspicious login for {{user_email}} on {{timestamp}}. Verify: {{verification_link}}"
+  whatsapp:
+    text: |
+      *Suspicious Login Alert*
+
+      • *User:* {{user_email}}
+      • *When:* {{timestamp}}
+      • *Where:* {{login_location}} (IP: {{ip_address}})
+      • *Device:* {{device_info}}
+      • *Risk:* {{risk_score}}
+
+      Verify here 👉 {{verification_link}}
+
+      If this wasn’t you, please secure your account immediately.
+  push:
+    title: "⚠️ Suspicious Login Detected"
+    body: "Risk {{risk_score}} for {{user_email}}. Tap to verify."
+
+variables:
+  required:
+    - user_email
+    - login_location
+    - device_info
+    - timestamp
+    - ip_address
+    - risk_score
+    - verification_link
+  optional: []
+
+# THIS is what matters - show them how to use it
+examples:
+  - description: "Basic usage"
+    data:
+      user_email: "alex@example.com"
+      login_location: "New York, NY"
+      device_info: "Chrome on macOS"
+      timestamp: "2025-06-23 14:45:00"
+      ip_address: "203.0.113.42"
+      risk_score: "85"
+      verification_link: "https://app.example.com/verify-login?token=abc123"

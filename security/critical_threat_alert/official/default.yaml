@@ -1,0 +1,87 @@
+version: "1.0"
+id: "critical_threat_alert"
+name: "Critical Threat Alert"
+description: "Notify the security team when a critical threat is detected"
+category: "security-threat-detection"
+tags: ["security", "alert", "critical", "threat", "notification"]
+
+channels:
+  email:
+    subject: "🚨 Critical Threat Detected: {{threat_type}}"
+    body: |
+      Hi Security Team,
+
+      We’ve detected a *critical* security threat in our environment. Please review the details below and take immediate action.
+
+      • Threat Type       : {{threat_type}}
+      • Severity Level    : {{severity_level}}
+      • Affected Systems  : {{affected_systems}}
+      • Attack Vector     : {{attack_vector}}
+      • Detected At       : {{timestamp}}
+      • Confidence Score  : {{confidence_score}}%
+
+      Recommended Action:
+      {{recommended_action}}
+
+      —  
+      This is an automated alert. Reply to this email if you need assistance.
+  slack:
+    text: >
+      :rotating_light: *Critical Threat Alert*  
+      *Type:* {{threat_type}}  
+      *Severity:* {{severity_level}}  
+      *Systems:* {{affected_systems}}  
+      *Vector:* {{attack_vector}}  
+      *Confidence:* {{confidence_score}}%  
+      *Action:* {{recommended_action}}
+  teams:
+    text: >
+      🔔 **Critical Threat Alert**  
+      **Type:** {{threat_type}}  
+      **Severity:** {{severity_level}}  
+      **Affected Systems:** {{affected_systems}}  
+      **Attack Vector:** {{attack_vector}}  
+      **Time:** {{timestamp}}  
+      **Action:** {{recommended_action}}  
+      _Confidence: {{confidence_score}}%_
+  sms:
+    text: >
+      CRITICAL: {{threat_type}} on {{affected_systems}} (Severity {{severity_level}}). 
+      Action: {{recommended_action}}.
+  whatsapp:
+    text: |
+      🚨 *Critical Threat Alert* 🚨
+      Type: {{threat_type}}
+      Severity: {{severity_level}}
+      Systems: {{affected_systems}}
+      Vector: {{attack_vector}}
+      Time: {{timestamp}}
+      Confidence: {{confidence_score}}%
+      Action: {{recommended_action}}
+
+      _Please address immediately._
+  push:
+    title: "Critical Threat: {{threat_type}}"
+    message: "Severity {{severity_level}} threat on {{affected_systems}}. Tap to view details."
+
+variables:
+  required:
+    - "threat_type"
+    - "severity_level"
+    - "affected_systems"
+    - "attack_vector"
+    - "timestamp"
+    - "recommended_action"
+    - "confidence_score"
+  optional: []
+
+examples:
+  - description: "Basic usage"
+    data:
+      threat_type: "Unauthorized Access Attempt"
+      severity_level: "Critical"
+      affected_systems: "Database Cluster A"
+      attack_vector: "SSH Brute Force"
+      timestamp: "2025-06-23T14:30:00Z"
+      recommended_action: "Block offending IP, rotate SSH keys"
+      confidence_score: "98"

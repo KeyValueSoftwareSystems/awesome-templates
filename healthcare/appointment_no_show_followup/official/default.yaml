@@ -1,0 +1,55 @@
+# Better structure - focused on what developers need
+version: "1.0"
+id: "appointment_no_show_followup"
+name: "No-Show Appointment Follow-Up"
+description: "Follow-up notification to patients who missed their appointment"
+category: "appointment-management"
+tags: ["healthcare", "appointment", "follow-up", "no-show"]
+
+channels:
+  email:
+    subject: "We missed you at your appointment on {{missed_appointment_date}}"
+    body: |
+      Hi {{patient_name}},
+
+      We noticed you missed your appointment with {{provider_name}} on {{missed_appointment_date}}. We care about your health and want to ensure you stay on track.
+      {{care_gap_alert}}
+
+      To reschedule, please choose one of these options:
+      {{rescheduling_options}}
+
+      If you have questions, just reply to this email or call our office.
+
+      Stay well,
+      {{provider_name}}’s Team
+
+  slack:
+    text: ":bell: No-show alert: {{patient_name}} missed their {{missed_appointment_date}} appointment with {{provider_name}}. Follow up and offer rescheduling."
+
+  teams:
+    text: "**No-Show Alert** – {{patient_name}} missed their {{missed_appointment_date}} slot with {{provider_name}}. {{rescheduling_options}}"
+
+  sms:
+    text: "Hi {{patient_name}}, you missed your {{missed_appointment_date}} appointment with {{provider_name}}. Reschedule: call 555-1234 or visit clinic.example.com/reschedule."
+
+  whatsapp:
+    text: "Hello {{patient_name}}, it seems you couldn't make your {{missed_appointment_date}} appointment with {{provider_name}}. {{care_gap_alert}} To reschedule, here are your options:\n{{rescheduling_options}}"
+
+  push:
+    title: "Missed Appointment Reminder"
+    body: "Hi {{patient_name}}, you missed your {{missed_appointment_date}} appointment. Tap to reschedule now."
+
+variables:
+  required: ["patient_name", "missed_appointment_date", "provider_name"]
+  optional: ["rescheduling_options", "care_gap_alert"]
+
+examples:
+  - description: "Basic usage"
+    data:
+      patient_name: "John Doe"
+      missed_appointment_date: "2025-06-20"
+      provider_name: "Dr. Smith"
+      rescheduling_options: |
+        • Call (555-1234)
+        • Online booking: clinic.example.com/reschedule
+      care_gap_alert: "Your annual wellness check is due soon. Let's keep you on track!"

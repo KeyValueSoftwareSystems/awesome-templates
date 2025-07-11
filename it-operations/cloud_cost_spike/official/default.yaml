@@ -1,0 +1,60 @@
+# Better structure – focused on what developers need
+version: "1.0"
+id: "cloud_cost_spike"
+name: "Cloud Cost Spike Alert"
+description: "Notify IT Operations when a cloud account's spend jumps beyond normal thresholds"
+category: "it-operations"
+tags: ["cloud", "cost", "anomaly", "alert"]
+
+channels:
+  email:
+    subject: "🚨 Cloud Spend Spike on Account {{account_id}}: {{spike_percentage}}% over normal"
+    body: |
+      Hi IT Team,
+
+      We’ve detected a cost anomaly on cloud account **{{account_id}}**:
+
+      • Normal spend: {{normal_spend}}
+      • Current spend: {{current_spend}}
+      • Spike: {{spike_percentage}}%
+      • Top contributors: {{contributing_services}}
+
+      Please investigate the services above to ensure this is expected.  
+      — Your Cost Monitoring Bot
+
+  slack:
+    text: "🚨 *Cloud Cost Spike* on account {{account_id}}! Spend is {{spike_percentage}}% above normal. Services: {{contributing_services}}"
+
+  teams:
+    text: "**Cloud Cost Spike Detected**\nAccount: {{account_id}}\n▶️ +{{spike_percentage}}% over normal\n🔧 Services: {{contributing_services}}"
+
+  sms:
+    text: "Alert: Cloud acct {{account_id}} spend is {{spike_percentage}}% above normal. Check dashboard for details."
+
+  whatsapp:
+    text: |
+      *Cloud Cost Anomaly Detected*  
+      • Account: {{account_id}}  
+      • Normal: {{normal_spend}}  
+      • Now: {{current_spend}}  
+      • Spike: {{spike_percentage}}%  
+      • Services: {{contributing_services}}  
+      
+      Kindly review.
+
+  push:
+    title: "Cloud Spend +{{spike_percentage}}% on {{account_id}}"
+    message: "Cost spike detected. Tap to view services driving the surge."
+
+variables:
+  required: ["account_id", "normal_spend", "current_spend", "spike_percentage", "contributing_services"]
+  optional: []
+
+examples:
+  - description: "Basic usage"
+    data:
+      account_id: "1234567890"
+      normal_spend: "$4,200"
+      current_spend: "$6,300"
+      spike_percentage: "50"
+      contributing_services: "EC2, S3, Lambda"

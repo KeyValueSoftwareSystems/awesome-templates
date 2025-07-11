@@ -1,0 +1,71 @@
+# Better structure - focused on what developers need
+version: "1.0"
+id: "voice_call_summary"
+name: "Voice Call Summary"
+description: "Provide a concise summary after a customer support voice call"
+category: "customer-support"
+tags: ["voice-support", "summary", "notification"]
+
+channels:
+  email:
+    subject: "📞 Call Summary with Agent {{agent_name}}"
+    body: |
+      Hi {{customer_name}},
+
+      Thank you for speaking with our support agent, **{{agent_name}}**. Here’s a quick recap of your call:
+
+      **Call Duration:** {{call_duration}}
+
+      **Key Issues Discussed:**
+      {{#each key_issues}}
+      - {{this}}
+      {{/each}}
+
+      **Next Steps:**
+      {{#each next_steps}}
+      - {{this}}
+      {{/each}}
+
+      If you have any further questions, just reply to this email.
+
+      Best regards,  
+      The Support Team
+
+  slack:
+    text: "📞 Call with *{{agent_name}}* lasted *{{call_duration}}*. Issues: {{key_issues}}. Next steps: {{next_steps}}."
+
+  teams:
+    text: "**Call Summary** with {{agent_name}} ({{call_duration}})\n• Issues: {{key_issues}}\n• Next steps: {{next_steps}}"
+
+  sms:
+    text: "Call with {{agent_name}} ({{call_duration}}). Issues: {{key_issues}}. Next: {{next_steps}}."
+
+  whatsapp:
+    text: |
+      Hi {{customer_name}},  
+      Here’s your call summary with {{agent_name}}:
+      • Duration: {{call_duration}}  
+      • Issues: {{key_issues}}  
+      • Next Steps: {{next_steps}}
+
+  push:
+    title: "Your call with {{agent_name}} has ended"
+    body: "Duration: {{call_duration}} | Issues: {{key_issues}} | Next: {{next_steps}}"
+
+variables:
+  required: ["call_duration", "key_issues", "next_steps", "agent_name"]
+  optional: ["customer_name"]
+
+# THIS is what matters - show them how to use it
+examples:
+  - description: "Basic usage"
+    data:
+      customer_name: "Raj"
+      agent_name: "Anita"
+      call_duration: "15m 32s"
+      key_issues:
+        - "Unable to log in"
+        - "Password reset process"
+      next_steps:
+        - "Use the reset link sent via email"
+        - "Confirm once you can access your account"

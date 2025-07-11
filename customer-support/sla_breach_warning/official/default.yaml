@@ -1,0 +1,49 @@
+# Better structure - focused on what developers need
+version: "1.0"
+id: "sla_breach_warning"
+name: "SLA Breach Warning"
+description: "Notify stakeholders when a ticket is close to breaching its SLA"
+category: "customer-support"
+tags: ["support", "sla", "warning", "notification"]
+
+channels:
+  email:
+    subject: "⚠️ SLA Warning: Ticket #{{ticket_id}} – {{sla_type}}"
+    body: |
+      Hello Support Team,
+
+      Ticket **#{{ticket_id}}** for a **{{customer_tier}}** customer is about to breach the **{{sla_type}}** SLA in **{{time_remaining}}**.  
+      Please prioritize and update the ticket to avoid SLA violation.
+
+      — Your SLA Monitoring Service
+  slack:
+    text: "⚠️ Ticket #{{ticket_id}} ({{customer_tier}}) is {{time_remaining}} from breaching the {{sla_type}} SLA. Take action now."
+  teams:
+    text: "🚨 SLA Alert: Ticket #{{ticket_id}} (Tier: {{customer_tier}}) has only {{time_remaining}} left to meet {{sla_type}}. Please address ASAP."
+  sms:
+    text: "SLA Alert: Ticket #{{ticket_id}} is {{time_remaining}} from breaching {{sla_type}} SLA. Customer Tier: {{customer_tier}}. Please respond."
+  whatsapp:
+    text: |
+      *SLA Breach Warning*  
+      • Ticket: #{{ticket_id}}  
+      • Tier: {{customer_tier}}  
+      • SLA: {{sla_type}}  
+      • Time left: {{time_remaining}}  
+
+      Kindly update the ticket to prevent a breach.
+  push:
+    title: "SLA Alert: Ticket #{{ticket_id}}"
+    body: "Only {{time_remaining}} left for {{sla_type}} on a {{customer_tier}} ticket. Please act now."
+
+variables:
+  required: ["ticket_id", "sla_type", "time_remaining", "customer_tier"]
+  optional: []
+
+# THIS is what matters - show them how to use it
+examples:
+  - description: "Basic usage"
+    data:
+      ticket_id: "CUST-5678"
+      sla_type: "Response Time"
+      time_remaining: "30 minutes"
+      customer_tier: "Gold"

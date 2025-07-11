@@ -1,0 +1,70 @@
+# Better structure - focused on what developers need
+version: "1.0"
+id: "order_status_changed"
+name: "Order Status Changed"
+description: "Notify customer when their order status has been updated"
+category: "customer-support"
+tags: ["order-management", "status-update", "notification"]
+
+channels:
+  email:
+    subject: "📦 Your order #{{order_id}} is now {{new_status}}"
+    body: |
+      Hi there,
+
+      We wanted to let you know that your order **#{{order_id}}** status has changed to **{{new_status}}**.
+
+      {{#if tracking_info}}
+      You can track your package here: {{tracking_info}}
+      {{/if}}
+
+      Estimated Delivery: {{delivery_estimate}}
+
+      Thank you for shopping with us!
+      
+      — The [YourCompany] Team
+
+  slack:
+    text: "Order *#{{order_id}}* status → *{{new_status}}*. Delivery ETA: {{delivery_estimate}}. {{#if tracking_info}} Track: {{tracking_info}}{{/if}}"
+
+  teams:
+    text: |
+      **Order Update**  
+      • Order: #{{order_id}}  
+      • Status: **{{new_status}}**  
+      • ETA: {{delivery_estimate}}  
+      {{#if tracking_info}}• Tracking: [View Status]({{tracking_info}}){{/if}}
+
+  sms:
+    text: "Order #{{order_id}} is now {{new_status}}. ETA: {{delivery_estimate}}. Track: {{tracking_info}}"
+
+  whatsapp:
+    text: |
+      Hi! Your order *#{{order_id}}* status has been updated to *{{new_status}}*.
+      Estimated delivery: {{delivery_estimate}}.
+      {{#if tracking_info}}
+      Track here: {{tracking_info}}
+      {{/if}}
+      Thanks for choosing us! 😊
+
+  push:
+    title: "Order #{{order_id}} {{new_status}}"
+    body: "ETA: {{delivery_estimate}}. Tap to track your order."
+
+variables:
+  required: ["order_id", "new_status", "delivery_estimate"]
+  optional: ["tracking_info"]
+
+# THIS is what matters - show them how to use it
+examples:
+  - description: "Basic usage with tracking"
+    data:
+      order_id: "ORD-7890"
+      new_status: "Shipped"
+      tracking_info: "https://track.example.com/ORD-7890"
+      delivery_estimate: "June 28, 2025"
+  - description: "Status update without tracking"
+    data:
+      order_id: "ORD-7891"
+      new_status: "Processing"
+      delivery_estimate: "July 2, 2025"

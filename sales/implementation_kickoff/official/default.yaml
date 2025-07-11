@@ -1,0 +1,84 @@
+# Better structure - focused on what developers need
+version: "1.0"
+id: "implementation_kickoff"
+name: "Implementation Kickoff"
+description: "Notify stakeholders when a post-sale implementation is about to start"
+category: "sales:post-sale-transition"
+tags: ["sales", "transition", "implementation", "notification"]
+
+channels:
+  email:
+    subject: "🚀 Kickoff: Implementation for {{products_purchased}} Begins"
+    body: |
+      Hi {{customer_contact}},
+
+      Thank you for choosing our solutions! We’re excited to kick off the implementation phase for:
+      
+      • Products: {{products_purchased}}  
+      • Timeline: {{implementation_timeline}}  
+      • Success Criteria: {{success_criteria}}  
+      {% if special_requirements %}
+      • Special Requirements: {{special_requirements}}
+      {% endif %}
+
+      What’s next:
+      1. You’ll receive a calendar invite with all meeting links.
+      2. Our implementation team will reach out to you shortly.
+      3. Let us know if there’s anything else we can prepare in advance.
+
+      Looking forward to a smooth start!
+
+      Best regards,
+      The Customer Success Team
+
+  slack:
+    text: |
+      🚀 Hey {{customer_contact}}, your implementation for *{{products_purchased}}* kicks off on {{implementation_timeline}}.  
+      Success Criteria: {{success_criteria}}  
+      {% if special_requirements %}Special Requirements: {{special_requirements}}{% endif %}
+
+  teams:
+    text: |
+      🚀 Implementation Kickoff Notice  
+      • Customer: {{customer_contact}}  
+      • Products: {{products_purchased}}  
+      • Start: {{implementation_timeline}}  
+      • Goals: {{success_criteria}}  
+      {% if special_requirements %}• Notes: {{special_requirements}}{% endif %}
+
+  sms:
+    text: >
+      🚀 Implementation for {{products_purchased}} starts {{implementation_timeline}}. Goals: {{success_criteria}}. Reply if you have special requests.
+  
+  whatsapp:
+    text: |
+      🚀 Hello {{customer_contact}}!
+      Your implementation for *{{products_purchased}}* begins on {{implementation_timeline}}.
+      ✅ Success Criteria: {{success_criteria}}
+      {% if special_requirements %}
+      📝 Special Requirements: {{special_requirements}}
+      {% endif %}
+      We’ll send a calendar invite shortly. Let us know if you have any questions!
+
+  push:
+    title: "Implementation Kickoff: {{products_purchased}}"
+    message: "Starts {{implementation_timeline}} • Goals: {{success_criteria}}"
+
+variables:
+  required:
+    - "customer_contact"
+    - "products_purchased"
+    - "implementation_timeline"
+    - "success_criteria"
+  optional:
+    - "special_requirements"
+
+# Example: how to use this template
+examples:
+  - description: "Basic usage for Acme Corp"
+    data:
+      customer_contact: "Jordan Lee (jordan@acme.com)"
+      products_purchased: "Enterprise CRM Suite"
+      implementation_timeline: "July 1 – July 15, 2025"
+      success_criteria: "Data migrated, workflows configured, team trained"
+      special_requirements: "Integration with legacy ERP"

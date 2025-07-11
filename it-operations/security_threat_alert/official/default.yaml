@@ -1,0 +1,77 @@
+# Better structure – focused on what developers need
+version: "1.0"
+id: "security_threat_alert"
+name: "Security Threat Alert"
+description: "Notify IT Ops when a security threat is detected"
+category: "security-threat-detection"
+tags: ["security", "alert", "it-ops"]
+
+channels:
+  email:
+    subject: "🚨 Security Alert: {{threat_type}} detected on {{target_system}}"
+    body: |
+      Hi Team,
+
+      A potential security threat has been detected.
+
+      • Threat Type: {{threat_type}}
+      • Source IP: {{source_ip}}
+      • Target System: {{target_system}}
+      • Risk Score: {{risk_score}}
+      • Detected At: {{detection_time}}
+
+      Recommended Action:
+      {{recommended_action}}
+
+      —  
+      This template is fully customizable to match your org’s branding.
+
+  slack:
+    text: |
+      🚨 *Security Alert*
+      {{threat_type}} detected on *{{target_system}}* (IP: {{source_ip}})  
+      Risk: {{risk_score}} • Action: {{recommended_action}}
+
+  teams:
+    text: |
+      **Security Alert**  
+      • *Threat*: {{threat_type}}  
+      • *Target*: {{target_system}}  
+      • *Risk*: {{risk_score}}  
+      • *When*: {{detection_time}}  
+      _Action_: {{recommended_action}}
+
+  sms:
+    text: >
+      SECURITY ALERT: {{threat_type}} on {{target_system}} ({{source_ip}}). Risk {{risk_score}}. Act: {{recommended_action}}.
+      Detected at {{detection_time}}.
+      [IT Ops]
+
+  whatsapp:
+    text: |
+      *SECURITY ALERT*  
+      ❗ *Threat*: {{threat_type}}  
+      🌐 *System*: {{target_system}}  
+      📍 *Source IP*: {{source_ip}}  
+      ⚠️ *Risk*: {{risk_score}}  
+      ⏰ *Time*: {{detection_time}}  
+
+      _Recommended_: {{recommended_action}}
+
+  push:
+    title: "Security: {{threat_type}} on {{target_system}}"
+    body: "Risk {{risk_score}}. Tap for details."
+
+variables:
+  required: ["threat_type", "source_ip", "target_system", "risk_score", "recommended_action", "detection_time"]
+  optional: []
+
+examples:
+  - description: "Basic usage"
+    data:
+      threat_type: "Unauthorized Access Attempt"
+      source_ip: "192.0.2.45"
+      target_system: "Prod-DB-01"
+      risk_score: "7.8/10"
+      recommended_action: "Isolate the host and rotate credentials immediately."
+      detection_time: "2025-06-23T14:45:00Z"

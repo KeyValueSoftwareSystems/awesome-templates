@@ -1,0 +1,81 @@
+# Better structure – focused on what developers need
+version: "1.0"
+id: "engagement_alert"
+name: "Engagement Usage Anomaly Alert"
+description: "Notify sales team when a usage anomaly is detected for an account"
+category: "usage-anomaly-detection"
+tags: ["sales", "anomaly", "alert", "usage"]
+
+channels:
+  email:
+    subject: "🚨 Anomaly detected for {{account_name}} – take action"
+    body: |
+      Hi {{sales_rep_name}},
+
+      We’ve detected an unusual usage pattern for **{{account_name}}**:
+
+      • **Metric:** {{usage_metrics}}  
+      • **Anomaly type:** {{anomaly_type}}  
+      • **Risk score:** {{risk_score}} / 100  
+
+      Recommended next step:
+      {{recommended_action}}
+
+      —  
+      Sent by SIREN • AI-powered alerts for your accounts
+
+  slack:
+    text: >
+      🚨 *Anomaly Alert* for *{{account_name}}*:
+      • Metric: {{usage_metrics}}
+      • Type: {{anomaly_type}}
+      • Risk: {{risk_score}}/100
+      › {{recommended_action}}
+
+  teams:
+    text: >
+      **Anomaly detected for {{account_name}}**  
+      • Metric: {{usage_metrics}}  
+      • Type: {{anomaly_type}}  
+      • Risk score: {{risk_score}}  
+      Next: {{recommended_action}}
+
+  sms:
+    text: >
+      ALERT: {{account_name}} usage anomaly. {{anomaly_type}}, risk {{risk_score}}. Next: {{recommended_action}}.
+
+  whatsapp:
+    text: |
+      🚨 *Usage Anomaly Detected* 🚨
+      Account: *{{account_name}}*
+      Metric: _{{usage_metrics}}_
+      Anomaly: _{{anomaly_type}}_
+      Risk Score: *{{risk_score}}/100*
+
+      ✔️ Recommended: {{recommended_action}}
+
+  push:
+    title: "Anomaly for {{account_name}} (Risk: {{risk_score}})"
+    body: >
+      {{anomaly_type}} detected in {{usage_metrics}}. {{recommended_action}}
+
+variables:
+  required:
+    - account_name
+    - usage_metrics
+    - anomaly_type
+    - risk_score
+    - recommended_action
+  optional:
+    - sales_rep_name
+
+# THIS is what matters – show them how to use it
+examples:
+  - description: "Basic usage"
+    data:
+      account_name: "Acme Corp"
+      usage_metrics: "API calls per minute spiked to 1,200"
+      anomaly_type: "Spike"
+      risk_score: 85
+      recommended_action: "Review spike source and reach out to customer"
+      sales_rep_name: "Priya"

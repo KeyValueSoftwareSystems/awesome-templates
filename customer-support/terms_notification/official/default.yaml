@@ -1,0 +1,79 @@
+# Better structure – focused on what developers need
+version: "1.0"
+id: "terms_notification"
+name: "Terms & Conditions Update"
+description: "Notify users about upcoming changes to Terms & Conditions"
+category: "compliance-legal"
+tags: ["compliance", "legal", "notification"]
+
+channels:
+  email:
+    subject: "📄 Our Terms & Conditions Are Changing on {{effective_date}}"
+    body: |
+      Hi {{customer_name or "there"}},
+
+      We’ve made important updates to our Terms & Conditions, effective from **{{effective_date}}**.
+
+      What’s changing?
+      {{change_summary}}
+
+      You can review the full details here:
+      {{terms_url}}
+
+      If you’d rather not continue under the new terms, here’s how to opt out:
+      {{opt_out_options}}
+
+      Thanks for being with us,
+      The [Your Company] Team
+
+  slack:
+    text: |
+      :warning: Heads up! Our Terms & Conditions are updated effective **{{effective_date}}**.
+      {{change_summary}}
+      • Review: {{terms_url}}
+      • Opt-out: {{opt_out_options}}
+
+  teams:
+    text: |
+      ⚠️ Terms & Conditions Update (effective {{effective_date}})
+      {{change_summary}}
+      Review full details: {{terms_url}}
+      Opt-out options: {{opt_out_options}}
+
+  sms:
+    text: >
+      Our Terms & Conditions change on {{effective_date}}. 
+      Key update: {{change_summary}}. 
+      See email or visit {{short_terms_url}}.
+      Opt-out: {{opt_out_options}}
+    # Note: keep under 160 chars, use a URL shortener for terms_url
+
+  whatsapp:
+    text: |
+      Hello! On {{effective_date}}, our Terms & Conditions will be updated.
+      • What’s new: {{change_summary}}
+      • Full details: {{terms_url}}
+      • Opt-out options: {{opt_out_options}}
+
+  push:
+    title: "Terms Update Effective {{effective_date}}"
+    body: "{{change_summary}}. Tap to read full terms or opt-out."
+
+variables:
+  required:
+    - change_summary
+    - effective_date
+  optional:
+    - opt_out_options
+    - terms_url
+    - short_terms_url
+
+# Examples demonstrate how to render with real data
+examples:
+  - description: "Basic usage"
+    data:
+      change_summary: "Privacy policy clarified; data sharing with partners."
+      effective_date: "2025-07-01"
+      opt_out_options: "Email support@company.com to close your account"
+      terms_url: "https://example.com/terms-2025"
+      short_terms_url: "https://ex.com/t"

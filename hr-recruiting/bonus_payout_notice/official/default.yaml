@@ -1,0 +1,73 @@
+# Better structure - focused on what developers need
+version: "1.0"
+id: "bonus_payout_notice"
+name: "Bonus Payout Notification"
+description: "Notify employee of upcoming bonus payout details"
+category: "hr-recruiting"
+tags: ["bonus", "payout", "notification"]
+
+channels:
+  email:
+    subject: "🎉Your bonus for {{performance_period}} is on the way!"
+    body: |
+      Hi {{employee_name}},
+
+      Congratulations! Your bonus for the period **{{performance_period}}** will be paid on **{{payout_date}}**.
+
+      • **Amount:** {{bonus_amount}}  
+      • **Tax details:** {{tax_implications}}  
+      • **Breakdown:**  
+      {{calculation_breakdown}}
+
+      If you have any questions, please reach out to HR.
+
+      Best,  
+      The People Team
+
+  slack:
+    text: ":tada: Hey {{employee_name}}, your **{{performance_period}}** bonus of {{bonus_amount}} lands on {{payout_date}}. Check your email for details."
+
+  teams:
+    text: "🎉 Hi {{employee_name}}! Your bonus ({{performance_period}}) of {{bonus_amount}} will be paid on {{payout_date}}. See your inbox for full details."
+
+  sms:
+    text: "Hi {{employee_name}}, your {{performance_period}} bonus of {{bonus_amount}} will be paid on {{payout_date}}. Details sent to your email."
+
+  whatsapp:
+    body: |
+      *Good news, {{employee_name}}!*  
+      Your bonus for *{{performance_period}}*  
+      • *Amount:* {{bonus_amount}}  
+      • *Payout date:* {{payout_date}}  
+      • *Taxes:* {{tax_implications}}  
+
+      Detailed breakdown:  
+      {{calculation_breakdown}}
+
+      Feel free to reply here if you have questions!
+
+  push:
+    title: "Bonus Incoming 🎉"
+    body: "Your {{performance_period}} bonus of {{bonus_amount}} hits your account on {{payout_date}}."
+
+variables:
+  required:
+    - "employee_name"
+    - "bonus_amount"
+    - "performance_period"
+    - "payout_date"
+  optional:
+    - "tax_implications"
+    - "calculation_breakdown"
+
+examples:
+  - description: "Basic usage"
+    data:
+      employee_name: "Aisha Patel"
+      bonus_amount: "$1,250"
+      performance_period: "Q1 2025"
+      payout_date: "2025-07-01"
+      tax_implications: "Subject to 20% withholding tax"
+      calculation_breakdown: |
+        - Base performance: $1,000  
+        - Tenure adjustment: $250

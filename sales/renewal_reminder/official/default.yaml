@@ -1,0 +1,70 @@
+# Better structure – focused on what developers need
+version: "1.0"
+id: "renewal_reminder"
+name: "Contract Renewal Reminder"
+description: "Warn customer that their contract is nearing expiry and suggest renewal options"
+category: "sales"
+tags: ["renewal", "warning", "notification"]
+
+channels:
+  email:
+    subject: "⏰ Your contract expires on {{contract_end_date}} – Renewal options inside"
+    body: |
+      Hi {{customer_name}},
+
+      We hope you’re seeing great value from our service. Your current contract will expire on **{{contract_end_date}}**.
+
+      • Current usage: {{current_usage}}  
+      • Renewal terms: {{renewal_terms}}  
+      • Success metrics: {{success_metrics}}  
+
+      We’d love to keep you on board—here are some ways to upgrade or extend:
+      {{upsell_opportunities}}
+
+      Please let us know how we can support your next phase!
+
+      Best regards,  
+      The Sales Team
+
+  slack:
+    text: "🔔 Heads up: Your contract ends {{contract_end_date}}. Check renewal options: {{renewal_terms}}."
+
+  teams:
+    text: "📢 Reminder: Contract expiring on {{contract_end_date}}. Current usage: {{current_usage}}. Let’s discuss renewal terms."
+
+  sms:
+    text: "Your contract expires {{contract_end_date}}. Usage at {{current_usage}}. Reply ‘RENEW’ for terms & options."
+
+  whatsapp:
+    text: |
+      🚨 *Contract Expiry Alert* 🚨
+
+      • End date: {{contract_end_date}}  
+      • Usage to date: {{current_usage}}  
+      • Renewal terms: {{renewal_terms}}  
+
+      Interested in upgrading?  
+      {{upsell_opportunities}}
+
+      Let’s keep your success metrics on track! 📈
+
+  push:
+    title: "Contract ends {{contract_end_date}}"
+    message: "Tap to review renewal terms & upsell options based on your usage."
+
+variables:
+  required: ["contract_end_date", "current_usage", "renewal_terms", "upsell_opportunities", "success_metrics"]
+  optional: []
+
+# THIS is what matters – show them how to use it
+examples:
+  - description: "Basic usage"
+    data:
+      customer_name: "Acme Corp"
+      contract_end_date: "2025-09-30"
+      current_usage: "78% of allocated seats"
+      renewal_terms: "12-month extension at 10% discount"
+      upsell_opportunities: |
+        • Add 10 more seats at $15/user  
+        • Activate Advanced Analytics module  
+      success_metrics: "20% increase in team productivity"

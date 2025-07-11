@@ -1,0 +1,59 @@
+# Better structure – focused on what developers need
+version: "1.0"
+id: "api_limit_approaching"
+name: "API Rate Limit Approaching"
+description: "Warn client when API usage nears the rate limit"
+category: "finance"
+tags: ["finance", "api", "warning", "rate-limit"]
+
+channels:
+  email:
+    subject: "⚠️ API Usage Nearing Limit for Client {{client_id}}"
+    body: |
+      Hello {{client_id}},
+
+      Our records show your API usage is approaching its limit.
+
+      • Current usage: {{current_usage}} of {{rate_limit}} requests  
+      • Limit resets at: {{reset_time}}
+
+      To avoid interruption, consider upgrading your plan:
+      {{upgrade_options}}
+
+      If you have questions, reach out at {{support_contact}}.
+
+      — The SIREN Team
+
+  slack:
+    text: ":warning: *{{client_id}}* has used *{{current_usage}}/{{rate_limit}}* API calls. Reset: {{reset_time}}. Upgrade: {{upgrade_options}}"
+
+  teams:
+    text: "⚠️ API alert for {{client_id}} — {{current_usage}}/{{rate_limit}} calls used. Resets at {{reset_time}}. See upgrade options: {{upgrade_options}}"
+
+  sms:
+    text: "API usage for {{client_id}} is {{current_usage}}/{{rate_limit}}. Resets at {{reset_time}}. Upgrade: {{upgrade_options}}"
+
+  whatsapp:
+    text: >
+      Hi {{client_id}}! You’ve reached {{current_usage}} of {{rate_limit}} API calls.
+      Your limit resets at {{reset_time}}.
+      To avoid downtime, check upgrade options: {{upgrade_options}}
+      Need help? {{support_contact}}
+
+  push:
+    title: "API Limit Warning"
+    body: "{{current_usage}}/{{rate_limit}} calls used. Resets at {{reset_time}}. Upgrade: {{upgrade_options}}"
+
+variables:
+  required: ["client_id", "current_usage", "rate_limit", "reset_time", "upgrade_options", "support_contact"]
+  optional: []
+
+examples:
+  - description: "Basic alert when usage is high"
+    data:
+      client_id: "AcmeCorp"
+      current_usage: "9,500"
+      rate_limit: "10,000"
+      reset_time: "2025-06-24T00:00:00Z"
+      upgrade_options: "Visit https://example.com/upgrade for higher limits"
+      support_contact: "support@example.com"

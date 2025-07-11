@@ -1,0 +1,56 @@
+# Better structure - focused on what developers need
+version: "1.0"
+id: "feedback_request"
+name: "Feedback Survey Request"
+description: "Ask customer to complete a satisfaction survey"
+category: "customer-support"
+tags: ["feedback", "survey", "request"]
+
+channels:
+  email:
+    subject: "We value your feedback! Survey #{{interaction_id}}"
+    body: |
+      Hi {{customer_name}},
+
+      Thank you for using our service. We’d love to hear your thoughts.
+      Please take a moment to complete this short survey:
+
+      {{survey_link}}
+
+      As a token of our appreciation, you’ll receive {{incentive_offered}} upon completion.
+
+      Thanks again,
+      The Support Team
+
+  slack:
+    text: ":memo: Hi! We’d appreciate your feedback. Please fill out our survey: {{survey_link}} (Ref: {{interaction_id}}). You’ll get {{incentive_offered}} as thanks."
+
+  teams:
+    text: "📝 Hello! We’re always improving. Share your experience in this survey: {{survey_link}} (Ref #{{interaction_id}}). You’ll earn {{incentive_offered}} when done."
+
+  sms:
+    text: "Help us improve! Take our survey: {{survey_link}} Ref:{{interaction_id}}. Get {{incentive_offered}}."
+
+  whatsapp:
+    text: |
+      Hi there! We hope you’re enjoying our service. Please take a quick survey to let us know how we did:
+      {{survey_link}}
+      Reward: {{incentive_offered}}
+      Thank you!
+
+  push:
+    title: "We value your feedback!"
+    body: "Tap to take a quick survey and earn {{incentive_offered}}. (Ref: {{interaction_id}})"
+
+variables:
+  required: ["interaction_id", "survey_link"]
+  optional: ["incentive_offered"]
+
+# THIS is what matters - show them how to use it
+examples:
+  - description: "Basic usage"
+    data:
+      interaction_id: "FB-20250623-001"
+      customer_name: "Alex"
+      survey_link: "https://example.com/survey/FB-20250623-001"
+      incentive_offered: "$5 credit"

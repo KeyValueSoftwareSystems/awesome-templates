@@ -1,0 +1,88 @@
+# Better structure - focused on what developers need
+version: "1.0"
+id: "kyc_document_collection"
+name: "KYC Document Request"
+description: "Prompt customer to upload required KYC documents"
+category: "finance"
+tags: ["finance", "kyc", "compliance", "notification"]
+
+channels:
+  email:
+    subject: "🔒 Action Required: Upload Your KYC Documents for Account {{account_id}}"
+    body: |
+      Hi {{customer_name}},
+
+      To comply with regulatory requirements, we need the following documents to verify your identity:
+      {{#each required_documents}}
+      • {{this}}
+      {{/each}}
+
+      Please upload them by {{deadline}} via the secure link below:
+      {{upload_link}}
+
+      Once we receive your documents, your verification status will update to "{{verification_status}}."
+
+      Thank you for your prompt attention.
+
+      Best regards,
+      The Compliance Team
+
+  slack:
+    text: |
+      :lock: Hi {{customer_name}}, please upload your KYC docs for account *{{account_id}}* by *{{deadline}}*.  
+      Required: {{#join required_documents ", "}}{{/join}}  
+      Upload here: {{upload_link}}
+
+  teams:
+    text: |
+      **KYC Documents Needed**  
+      Account: **{{account_id}}**  
+      Dear {{customer_name}},  
+      We require the following by {{deadline}}:  
+      • {{#each required_documents}}
+        - {{this}}
+        {{/each}}  
+      Upload: {{upload_link}}  
+      Status will become **{{verification_status}}** once complete.
+
+  sms:
+    text: >
+      Hi {{customer_name}}, we need your KYC docs ({{#join required_documents ", "}}{{/join}}) for acct {{account_id}} by {{deadline}}. Upload: {{upload_link}}
+
+  whatsapp:
+    text: |
+      Hello {{customer_name}} 👋  
+      To complete your account setup (ID: {{account_id}}), please send us:
+      {{#each required_documents}}
+      • {{this}}
+      {{/each}}
+      by {{deadline}}.  
+      Simply click here to upload: {{upload_link}}  
+      Your verification status will update to "{{verification_status}}" once we receive everything. Thank you!
+
+  push:
+    title: "KYC Docs Needed for {{account_id}}"
+    message: "Hi {{customer_name}}, upload your KYC documents by {{deadline}} to verify your account. Tap to upload."
+
+variables:
+  required:
+    - "customer_name"
+    - "account_id"
+    - "required_documents"
+    - "deadline"
+    - "upload_link"
+    - "verification_status"
+  optional: []
+
+# THIS is what matters - show them how to use it
+examples:
+  - description: "Basic usage"
+    data:
+      customer_name: "Rahul Sharma"
+      account_id: "ACC-987654"
+      required_documents:
+        - "Government-issued ID"
+        - "Proof of Address"
+      deadline: "2025-07-07"
+      upload_link: "https://upload.yourbank.com/kyc/ACC-987654"
+      verification_status: "Pending Verification"

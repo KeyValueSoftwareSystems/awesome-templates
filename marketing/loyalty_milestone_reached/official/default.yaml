@@ -1,0 +1,69 @@
+version: "1.0"
+id: "loyalty_milestone_reached"
+name: "Loyalty Milestone Reached"
+description: "Notify customer when they reach a loyalty program milestone"
+category: "marketing"
+tags: ["loyalty", "milestone", "rewards", "marketing"]
+
+channels:
+  email:
+    subject: "🎉 You've hit a new milestone, {{customer_name}}!"
+    body: |
+      Hi {{customer_name}},
+
+      Great news — you've just reached a new milestone in our loyalty program!
+
+      👉 Milestone: {{milestone_type}}
+      ⭐ Points Earned: {{points_earned}}
+
+      As a token of appreciation, you've unlocked:
+      🎁 Reward: {{reward_available}}
+
+      Be sure to redeem it before {{expiration_date}}.
+
+      How to redeem:
+      {{redemption_instructions}}
+
+      Thank you for being a loyal customer!
+
+      – The Team
+
+  slack:
+    text: |
+      🎉 {{customer_name}}, you've reached {{milestone_type}} and earned {{points_earned}} points!
+      Reward unlocked: {{reward_available}} (expires {{expiration_date}})
+
+  sms:
+    text: |
+      Congrats {{customer_name}}! You've hit {{milestone_type}} 🎉
+      Reward: {{reward_available}}. Redeem by {{expiration_date}}.
+
+  whatsapp:
+    text: |
+      👋 Hi {{customer_name}}!
+      
+      You've just reached the *{{milestone_type}}* milestone and earned *{{points_earned}}* points.
+
+      🎁 Your reward: *{{reward_available}}*
+      ⏰ Expires on: *{{expiration_date}}*
+
+      How to redeem: {{redemption_instructions}}
+
+      Thanks for staying with us!
+
+  push:
+    text: "🎉 {{customer_name}}, you’ve earned a new reward! Tap to redeem before {{expiration_date}}."
+
+variables:
+  required: ["customer_name", "milestone_type", "points_earned", "reward_available", "expiration_date"]
+  optional: ["redemption_instructions"]
+
+examples:
+  - description: "Bronze milestone reached"
+    data:
+      customer_name: "Amit"
+      milestone_type: "Bronze Tier"
+      points_earned: "500"
+      reward_available: "₹100 off next purchase"
+      expiration_date: "2025-08-31"
+      redemption_instructions: "Go to your profile > Rewards > Redeem 'Bronze Reward'"

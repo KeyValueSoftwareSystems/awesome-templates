@@ -1,0 +1,72 @@
+# Better structure – focused on what developers need
+version: "1.0"
+id: "autoscaling_notification"
+name: "Auto-Scaling Event Notification"
+description: "Alert when an auto-scaling group changes capacity"
+category: "it-operations"
+tags: ["auto-scaling", "infrastructure", "notification"]
+
+channels:
+  email:
+    subject: "🚀 Auto-Scaling Triggered for {{scaling_group}}"
+    body: |
+      Hi Team,
+
+      Your auto-scaling group **{{scaling_group}}** just adjusted its capacity.
+
+      • Trigger: {{trigger_metric}}  
+      • Old Capacity: {{old_capacity}} instances  
+      • New Capacity: {{new_capacity}} instances  
+      • Estimated Cost Δ: {{cost_change}}
+
+      You can review details in your cloud console or notify stakeholders as needed.
+
+      —  
+      Sent via SIREN • AI-powered notifications
+
+  slack:
+    text: >
+      🚀 *Auto-Scaling Alert*  
+      *Group:* {{scaling_group}}  
+      *Metric:* {{trigger_metric}}  
+      *From:* {{old_capacity}} → *To:* {{new_capacity}}  
+      *Cost Δ:* {{cost_change}}
+
+  teams:
+    text: |
+      **Auto-Scaling Event**  
+      **Group:** {{scaling_group}}  
+      **Trigger:** {{trigger_metric}}  
+      **Capacity:** {{old_capacity}} → {{new_capacity}}  
+      **Cost Change:** {{cost_change}}
+
+  sms:
+    text: "Auto-Scaling: {{scaling_group}} resized from {{old_capacity}} to {{new_capacity}} (Δ cost {{cost_change}})."
+
+  whatsapp:
+    text: |
+      🚨 Auto-Scaling Update 🚨
+
+      Group: *{{scaling_group}}*  
+      Trigger: {{trigger_metric}}  
+      Capacity: {{old_capacity}} → {{new_capacity}}  
+      Cost Δ: {{cost_change}}
+
+      Check your dashboard for full details.
+
+  push:
+    title: "Auto-Scaling: {{scaling_group}} → {{new_capacity}}"
+    body: "{{trigger_metric}} triggered scaling (Δ cost {{cost_change}})"
+
+variables:
+  required: ["scaling_group", "trigger_metric", "old_capacity", "new_capacity", "cost_change"]
+  optional: []
+
+examples:
+  - description: "Web-server group scaled up"
+    data:
+      scaling_group: "web-servers-prod"
+      trigger_metric: "CPU > 75% for 5m"
+      old_capacity: "3"
+      new_capacity: "5"
+      cost_change: "+$0.12/hr"

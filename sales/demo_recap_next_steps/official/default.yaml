@@ -1,0 +1,97 @@
+# Better structure - focused on what developers need
+version: "1.0"
+id: "demo_recap_next_steps"
+name: "Post-Demo Summary & Next Steps"
+description: "Send a concise recap of the demo, address questions/objections, and outline next steps with timeline"
+category: "sales"
+tags: ["sales", "demo", "summary", "follow-up"]
+
+channels:
+  email:
+    subject: "📝 Demo Recap & Next Steps – {{timeline}}"
+    body: |
+      Hi {{contact_name}},
+
+      Thank you for attending the demo today! Here’s a quick recap and our proposed next steps:
+
+      • **Key Points:**  
+        {{key_points}}
+
+      • **Features Demonstrated:**  
+        {{features_demonstrated}}
+
+      • **Questions You Asked:**  
+        {{questions_asked}}
+
+      • **Objections Raised:**  
+        {{objections_raised}}
+
+      ——
+
+      **Next Steps:**  
+      {{next_steps}}
+
+      **Proposed Timeline:**  
+      {{timeline}}
+
+      Please let me know if you have any further questions or if you’d like to schedule a follow-up call.
+
+      Best regards,  
+      {{sender_name}}
+
+  slack:
+    text: "📋 *Demo Recap:* {{key_points}}\n🔧 *Features:* {{features_demonstrated}}\n❓ *Questions:* {{questions_asked}}\n⚠️ *Objections:* {{objections_raised}}\n➡️ *Next:* {{next_steps}} by {{timeline}}"
+
+  teams:
+    text: |
+      **Demo Recap & Next Steps**
+      • **Key Points:** {{key_points}}
+      • **Features:** {{features_demonstrated}}
+      • **Questions:** {{questions_asked}}
+      • **Objections:** {{objections_raised}}
+
+      **Next Steps:** {{next_steps}}  
+      **Timeline:** {{timeline}}
+
+  sms:
+    text: "Thanks for your time! Recap: {{key_points}}. Next: {{next_steps}} (by {{timeline}}). Reply with any questions."
+
+  whatsapp:
+    text: |
+      *Demo Recap & Next Steps*
+      ➤ *Key Points:* {{key_points}}
+      ➤ *Features:* {{features_demonstrated}}
+      ➤ *Questions:* {{questions_asked}}
+      ➤ *Objections:* {{objections_raised}}
+
+      *Next Steps:* {{next_steps}}  
+      *Timeline:* {{timeline}}
+
+  push:
+    title: "Demo Recap Ready"
+    body: "Check your inbox for the full demo recap and next steps by {{timeline}}."
+
+variables:
+  required:
+    - contact_name
+    - key_points
+    - features_demonstrated
+    - questions_asked
+    - objections_raised
+    - next_steps
+    - timeline
+  optional:
+    - sender_name
+
+# THIS is what matters - show them how to use it
+examples:
+  - description: "Basic usage"
+    data:
+      contact_name: "Alex"
+      key_points: "Improved reporting, real-time alerts"
+      features_demonstrated: "Dashboard, Workflow Builder, Notification Failover"
+      questions_asked: "Is GDPR compliant? How do I set up SMS fallback?"
+      objections_raised: "Budget timing, integration effort"
+      next_steps: "Share pricing proposal, schedule technical workshop"
+      timeline: "by July 1, 2025"
+      sender_name: "Jordan"

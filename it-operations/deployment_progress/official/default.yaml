@@ -1,0 +1,65 @@
+# Better structure – focused on what developers need
+version: "1.0"
+id: "deployment_progress"
+name: "Deployment Progress Update"
+description: "Notify IT and HR teams about current deployment status"
+category: "it-operations"
+tags: ["deployment", "status", "notification"]
+
+channels:
+  email:
+    subject: "🚀 Deployment Update: {{deployment_phase}} at {{completion_percentage}}"
+    body: |
+      Hi Team,
+
+      Here’s the latest on our deployment:
+
+      • Phase: {{deployment_phase}}  
+      • Progress: {{completion_percentage}} complete  
+      • Current Step: {{current_step}}  
+      • Estimated Finish: {{estimated_completion}}  
+      • Health Checks: {{health_checks}}
+
+      We’ll keep you posted with each milestone.  
+      — IT Operations
+
+  slack:
+    text: ":gear: *Deployment {{deployment_phase}} – {{completion_percentage}}*  \nStep: {{current_step}} | ETA: {{estimated_completion}}"
+
+  teams:
+    text: "**Deployment Update**\n• Phase: {{deployment_phase}}\n• {{completion_percentage}} done\n• Next: {{current_step}}\n• ETA: {{estimated_completion}}"
+
+  sms:
+    text: "DEPLOY {{deployment_phase}}: {{completion_percentage}} done. Next: {{current_step}}. ETA {{estimated_completion}}."
+
+  whatsapp:
+    text: |
+      *Deployment Status Update*  
+      Phase: {{deployment_phase}}  
+      Progress: {{completion_percentage}}  
+      Current Step: {{current_step}}  
+      ETA: {{estimated_completion}}  
+      Health Checks: {{health_checks}}
+
+  push:
+    title: "Deployment {{deployment_phase}} – {{completion_percentage}}"
+    message: "{{current_step}} underway. ETA {{estimated_completion}}."
+
+variables:
+  required:
+    - deployment_phase
+    - completion_percentage
+    - current_step
+    - estimated_completion
+    - health_checks
+  optional: []
+
+# THIS is what matters – show them how to use it
+examples:
+  - description: "Basic usage"
+    data:
+      deployment_phase: "Rollout"
+      completion_percentage: "45%"
+      current_step: "Verifying service availability"
+      estimated_completion: "15 minutes"
+      health_checks: "All systems nominal"

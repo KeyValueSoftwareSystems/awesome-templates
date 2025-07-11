@@ -1,0 +1,71 @@
+version: "1.0"
+id: "identity_verification_request"
+name: "Identity Verification Required"
+description: "Notify user to verify their identity for security reasons"
+category: "security"
+tags: ["security", "identity", "verification", "notification"]
+
+channels:
+  email:
+    subject: "⚠️ Action Required: Identity Verification Needed"
+    body: |
+      Hi {{user_name}},
+      
+      For your security, we need you to verify your identity.
+
+      Reason: {{verification_reason}}
+      Method: {{verification_method}}
+      This link will expire at: {{expiry_time}}
+
+      👉 Please verify your identity here: {{verification_link}}
+
+      If you have any questions, feel free to contact us at {{support_contact}}.
+
+      Thanks,  
+      The Security Team
+
+  slack:
+    text: |
+      🔐 {{user_name}}, we need you to verify your identity.
+      Reason: {{verification_reason}} | Method: {{verification_method}}
+      [Verify Now]({{verification_link}}) — Expires at {{expiry_time}}
+
+  teams:
+    text: |
+      🚨 {{user_name}}, identity verification required.
+      Reason: {{verification_reason}}  
+      Use this method: {{verification_method}}  
+      Expires at: {{expiry_time}}  
+      [Click to Verify]({{verification_link}})
+
+  sms:
+    text: >
+      {{user_name}}, verify identity: {{verification_method}} ({{verification_reason}}).
+      Link: {{verification_link}}. Exp: {{expiry_time}}
+
+  whatsapp:
+    text: |
+      Hello {{user_name}}, your identity verification is needed for {{verification_reason}}.
+
+      ➤ Method: {{verification_method}}  
+      ⏰ Link expires: {{expiry_time}}  
+      🔗 Click here to verify: {{verification_link}}  
+
+      Need help? Contact support: {{support_contact}}
+
+  push:
+    text: "⚠️ Identity check needed for {{user_name}}. Tap to verify before {{expiry_time}}."
+
+variables:
+  required: ["user_name", "verification_reason", "verification_method", "expiry_time", "verification_link"]
+  optional: ["support_contact"]
+
+examples:
+  - description: "Standard verification request"
+    data:
+      user_name: "Alex"
+      verification_reason: "Suspicious login attempt"
+      verification_method: "2FA via email"
+      expiry_time: "2025-07-08T18:00:00Z"
+      verification_link: "https://security.example.com/verify/abc123"
+      support_contact: "security@example.com"

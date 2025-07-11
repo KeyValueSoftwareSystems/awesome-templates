@@ -1,0 +1,89 @@
+# Better structure - focused on what developers need
+version: "1.0"
+id: "critical_system_down"
+name: "Critical System Down"
+description: "Alert IT operations of a critical system outage"
+category: "it-operations"
+tags: ["alert", "outage", "critical", "notification"]
+
+channels:
+  email:
+    subject: "🚨 Critical Outage: {{system_name}} is DOWN"
+    body: |
+      Hi Team,
+
+      A critical outage has been detected.
+
+      System: {{system_name}}
+      Time: {{timestamp}}
+      Incident ID: {{incident_id}}
+      Severity: {{severity_level}}
+      Error Code: {{error_code}}
+      Affected Services: {{affected_services}}
+
+      Please investigate immediately and update the incident status as you work on a resolution.
+
+      — IT Operations Bot
+
+  slack:
+    text: |
+      🚨 *Critical Outage*  
+      *System*: {{system_name}}  
+      *When*: {{timestamp}}  
+      *ID*: {{incident_id}}  
+      *Severity*: {{severity_level}}  
+      *Error*: {{error_code}}  
+      *Services*: {{affected_services}}  
+      _Ping on-call for immediate action._
+
+  teams:
+    text: |
+      **CRITICAL: {{system_name}} Outage**
+      • **Time:** {{timestamp}}  
+      • **Incident ID:** {{incident_id}}  
+      • **Severity:** {{severity_level}}  
+      • **Error Code:** {{error_code}}  
+      • **Affected:** {{affected_services}}  
+
+      _Please respond ASAP._
+
+  sms:
+    text: >
+      ALERT: {{system_name}} down (ID {{incident_id}}) at {{timestamp}}. Sev={{severity_level}}, Err={{error_code}}. Check dashboard.
+
+  whatsapp:
+    text: |
+      🚨 *Critical System Outage*
+      • System: {{system_name}}
+      • Time: {{timestamp}}
+      • Incident: {{incident_id}}
+      • Severity: {{severity_level}}
+      • Error Code: {{error_code}}
+      • Affected Services: {{affected_services}}
+
+      Please address immediately.
+
+  push:
+    title: "🚨 {{system_name}} Down ({{severity_level}})"
+    body: "Outage at {{timestamp}}. ID {{incident_id}}. Tap for details."
+
+variables:
+  required:
+    - system_name
+    - timestamp
+    - error_code
+    - affected_services
+    - severity_level
+    - incident_id
+  optional: []
+
+# THIS is what matters - show them how to use it
+examples:
+  - description: "Critical system outage notification"
+    data:
+      system_name: "Payments API"
+      timestamp: "2025-06-23T14:45:00+05:30"
+      incident_id: "INC-20250623-007"
+      severity_level: "P1"
+      error_code: "ERR503"
+      affected_services: "Checkout, Refunds, Subscription"

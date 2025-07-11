@@ -1,0 +1,83 @@
+version: "1.0"
+id: "interview_schedule_confirmation"
+name: "Interview Schedule Confirmation"
+description: "Notify candidate to confirm their upcoming interview schedule"
+category: "hr-recruiting"
+tags: ["hr", "recruiting", "interview", "confirmation", "notification"]
+
+channels:
+  email:
+    subject: "✅ Confirm Your {{position_title}} Interview on {{proposed_date}}"
+    body: |
+      Hi {{candidate_name}},
+
+      We’re excited to move forward with your application for the {{position_title}} role.
+
+      Please confirm your interview details:
+      • Interviewer: {{interviewer_name}}
+      • Date: {{proposed_date}}
+      • Time: {{proposed_time}} ({{interview_duration}})
+      • Type: {{interview_type}}
+      • Meeting Link: {{meeting_link}}
+
+      If you need to reschedule, let us know by replying to this email.
+
+      Looking forward to speaking with you!
+      Best regards,
+      The HR Team
+
+  slack:
+    text: >
+      👋 {{candidate_name}}, please confirm your {{position_title}} interview
+      with {{interviewer_name}} on {{proposed_date}} at {{proposed_time}}
+      ({{interview_duration}}) via {{interview_type}}. Join: {{meeting_link}}
+
+  teams:
+    text: |
+      Hi {{candidate_name}},  
+      Your {{position_title}} interview with {{interviewer_name}} is set for {{proposed_date}} at {{proposed_time}} ({{interview_duration}}).  
+      Format: {{interview_type}}  
+      Link: {{meeting_link}}  
+      Please confirm or reply to reschedule.
+
+  sms:
+    text: "Hi {{candidate_name}}—Confirm your {{position_title}} interview on {{proposed_date}} at {{proposed_time}} ({{interview_duration}}). Reply YES to confirm or contact HR."
+
+  whatsapp:
+    text: |
+      Hello {{candidate_name}}!  
+      This is a confirmation request for your {{position_title}} interview with {{interviewer_name}}.  
+      Date: {{proposed_date}}  
+      Time: {{proposed_time}} ({{interview_duration}})  
+      Mode: {{interview_type}}  
+      Link: {{meeting_link}}  
+
+      Please reply “Confirm” to lock in this time, or let us know if you need to reschedule.
+
+  push:
+    title: "Confirm Your Interview – {{position_title}}"
+    body: "Tap to confirm your {{position_title}} interview on {{proposed_date}} at {{proposed_time}}."
+
+variables:
+  required:
+    - candidate_name
+    - interviewer_name
+    - proposed_date
+    - proposed_time
+    - interview_duration
+    - interview_type
+    - meeting_link
+    - position_title
+  optional: []
+
+examples:
+  - description: "Standard confirmation request"
+    data:
+      candidate_name: "Alex Patel"
+      interviewer_name: "Riya Singh"
+      proposed_date: "July 2, 2025"
+      proposed_time: "10:00 AM IST"
+      interview_duration: "45 minutes"
+      interview_type: "Video Call"
+      meeting_link: "https://meet.company.com/xyz123"
+      position_title: "Product Manager"
