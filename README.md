@@ -16,6 +16,8 @@ This repository contains a comprehensive set of communication templates for:
 
 Each template is designed for a specific use case (like fraud alerts, appointment reminders, onboarding, and more) and is ready to copy, adapt, and use in your own systems.
 
+Want a sneak peek? Browse live previews of all templates at [trysiren.io/templates](https://trysiren.io/templates).
+
 ## Why use these templates?
 - **Save time:** No need to write messages from scratch for every channel.
 - **Consistency:** Ensure your communications are clear and professional everywhere.
